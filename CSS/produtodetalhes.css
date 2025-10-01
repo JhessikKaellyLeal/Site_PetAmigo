@@ -1,0 +1,54 @@
+/* Galeria */
+.gallery-thumbs .thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: .5rem;
+}
+.gallery-thumbs .thumb.active {
+  outline: 2px solid var(--bs-primary);
+}
+
+/* Swatches de cor */
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  outline: 2px solid #dee2e6;
+  background: var(--c, #ccc);
+  cursor: pointer;
+}
+
+/* Bloco de avaliação (leitura) */
+.rating.read-only i {
+  color: #f6b500;   /* amarelo estrela */
+}
+
+/* Seletor de avaliação (modal) */
+.rating-select {
+  display: inline-flex;
+  flex-direction: row-reverse; /* preenche da esquerda p/ direita ao clicar */
+  gap: .35rem;
+}
+.rating-select input {
+  display: none;
+}
+.rating-select label {
+  font-size: 1.75rem;
+  color: #ced4da;   /* estrela vazia */
+  cursor: pointer;
+  transition: transform .05s ease-in;
+}
+.rating-select label:hover,
+.rating-select label:hover ~ label {
+  color: #f6b500;   /* hover ilumina as vizinhas à direita */
+  transform: scale(1.05);
+}
+.rating-select input:checked ~ label {
+  color: #f6b500;   /* selecionadas */
+}
+
+/* Ajuste para imagem principal */
+.object-fit-contain { object-fit: contain; }

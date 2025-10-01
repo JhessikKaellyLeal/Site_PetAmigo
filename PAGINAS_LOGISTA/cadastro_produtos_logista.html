@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Produtos</title>
+     <!-- Bootstrap CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/produtoslogista.css" />
+  </head>
+  <body>
+    
+  <!-- 1) Menu de navegação -->
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">PetAmigo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false" aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="topNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+          <li class="nav-item"><a class="nav-link " href="home_lojista.html">Relatórios</a></li>
+          <li class="nav-item"><a class="nav-link active" href="cadastro_produtos_logista.html">Produtos</a></li>
+          <li class="nav-item"><a class="nav-link " href="promocoes_logista.html">Promoções</a></li>
+          <li class="nav-item"><a class="nav-link  " href="frete_pagamento_logista.html">Pagamentos e Fretes</a></li>
+          <li class="nav-item"><a class="nav-link " href="chat_logista.html">Conversas</a></li>
+      
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-4">
+
+    <!-- 2) Categorias -->
+    <section id="categorias" class="mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="m-0">Cadastro de Categorias</h5>
+        </div>
+        <div class="card-body">
+
+          <form action="" method="" class="row g-3">
+            <div class="col-md-6">
+              <label for="catNome" class="form-label">Nome da categoria</label>
+              <input type="text" name="nomecategoria" class="form-control" id="catNome" placeholder="Ex.: Eletrônicos" />
+            </div>
+            <div class="col-md-6">
+               <label for="pPreco" class="form-label">Desconto em toda categoria</label>
+              <input name="desconto" type="number" id="catDesconto" class="form-control" min="0" step="0.01" placeholder="0,00" />
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <button type="submit" class="btn btn-outline-secondary">Editar</button>
+              <button type="submit" class="btn btn-outline-danger">Excluir</button>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label for="catLista" class="form-label">Categorias criadas</label>
+              <select id="catLista" class="form-select">
+                <option selected>Selecione uma categoria...</option>
+                <option>Brinquedos</option>
+                <option>Ração</option>
+                <option>Remédios</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Marcas -->
+    <section id="marcas" class="mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="m-0">Cadastro de Marcas</h5>
+        </div>
+        <div class="card-body">
+
+          <form class="row g-3" action="" method="post" enctype="multipart/form-data">
+            <div class="col-12 col-md-3 text-center">
+              <div class="brand-thumb border rounded d-flex align-items-center justify-content-center overflow-hidden">
+                <img id="brandPreview" alt="Prévia da marca" class="img-fluid d-none" />
+                <span id="brandPlaceholder" class="text-muted">Prévia da imagem</span>
+              </div>
+              <label for="brandImg" class="form-label mt-2">Imagem da marca</label>
+              <input class="form-control" name="imagemmarca" type="file" id="brandImg" accept="image/*" />
+            </div>
+
+            <div class="col-12 col-md-9">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="brandNome" class="form-label">Nome da marca</label>
+                  <input type="text" name="nomemarca" id="brandNome" class="form-control" placeholder="Ex.: TechPro" />
+                </div>
+                <div class="col-12 d-flex gap-2">
+                  <button type="submit" class="btn btn-primary">Cadastrar</button>
+                  <button type="submit" class="btn btn-outline-secondary">Editar</button>
+                  <button type="submit" class="btn btn-outline-danger">Excluir</button>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Marcas cadastradas</label>
+                  <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                      <thead>
+                        <tr>
+                          <th style="width: 72px;">Logo</th>
+                          <th>Nome</th>
+                          <th class="text-end">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><div class="logo-sample rounded"></div></td>
+                          <td>TechPro</td>
+                          <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><div class="logo-sample rounded"></div></td>
+                          <td>GigaMax</td>
+                          <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><div class="logo-sample rounded"></div></td>
+                          <td>Mobix</td>
+                          <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Produtos -->
+    <section id="produtos" class="mb-5">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="m-0">Cadastro de Produtos</h5>
+        </div>
+        <div class="card-body">
+          <form action="" method="post" class="row g-3" enctype="multipart/form-data">
+
+            <!-- Imagens (3) -->
+            <div class="col-12">
+              <label class="form-label">Imagens do produto (3)</label>
+              <div class="row g-3">
+                <div class="col-12 col-sm-4">
+                  <div class="product-thumb border rounded d-flex align-items-center justify-content-center overflow-hidden">
+                    <img id="pImg1Prev" class="img-fluid d-none" alt="Prévia 1" />
+                    <span id="pImg1Ph" class="text-muted">Prévia 1</span>
+                  </div>
+                  <input name="imgproduto1" class="form-control mt-2" type="file" id="pImg1" accept="image/*" />
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="product-thumb border rounded d-flex align-items-center justify-content-center overflow-hidden">
+                    <img id="pImg2Prev" class="img-fluid d-none" alt="Prévia 2" />
+                    <span id="pImg2Ph" class="text-muted">Prévia 2</span>
+                  </div>
+                  <input name="imgproduto2" class="form-control mt-2" type="file" id="pImg2" accept="image/*" />
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="product-thumb border rounded d-flex align-items-center justify-content-center overflow-hidden">
+                    <img id="pImg3Prev" class="img-fluid d-none" alt="Prévia 3" />
+                    <span id="pImg3Ph" class="text-muted">Prévia 3</span>
+                  </div>
+                  <input name="imgproduto3" class="form-control mt-2" type="file" id="pImg3" accept="image/*" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Dados do produto -->
+            <div class="col-md-6">
+              <label for="pNome" class="form-label">Nome</label>
+              <input name="nomeproduto" type="text" id="pNome" class="form-control" placeholder="Ex.: Fone Bluetooth X200" />
+            </div>
+            <div class="col-md-3">
+              <label for="pQtd" class="form-label">Quantidade</label>
+              <input name="quantidade" type="number" id="pQtd" class="form-control" min="0" step="1" />
+            </div>
+            <div class="col-md-3">
+              <label for="pPreco" class="form-label">Preço</label>
+              <input name="preco" type="number" id="pPreco" class="form-control" min="0" step="0.01" placeholder="0,00" />
+            </div>
+
+            <div class="col-md-3">
+              <label for="pTamanho" class="form-label">Tamanho</label>
+              <input name="tamanho" type="text" id="pTamanho" class="form-control" placeholder="Ex.: P, M, G ou dimensões" />
+            </div>
+            <div class="col-md-3">
+              <label for="pCor" class="form-label">Cor</label>
+              <input name="cor" type="text" id="pCor" class="form-control" placeholder="Ex.: Preto" />
+            </div>
+            <div class="col-md-3">
+              <label for="pCodigo" class="form-label">Código / SKU</label>
+              <input name="codigo" type="text" id="pCodigo" class="form-control" />
+            </div>
+            <div class="col-md-3">
+              <label for="pPrecoPromo" class="form-label">Preço promocional</label>
+              <input name="precopromocional" type="number" id="pPrecoPromo" class="form-control" min="0" step="0.01" placeholder="Opcional" />
+            </div>
+
+            <div class="col-md-6">
+              <label name="categoriaproduto" for="pCategoria" class="form-label">Categoria</label>
+              <select id="pCategoria" class="form-select">
+                <option selected>Selecione...</option>
+                <option>Informática</option>
+                <option>Celulares</option>
+                <option>Acessórios</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="pMarca" class="form-label">Marca</label>
+              <select name="marcaproduto" id="pMarca" class="form-select">
+                <option selected>Selecione...</option>
+                <option>TechPro</option>
+                <option>GigaMax</option>
+                <option>Mobix</option>
+              </select>
+            </div>
+
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <button type="submit" class="btn btn-outline-secondary">Editar</button>
+              <button type="submit" class="btn btn-outline-danger">Excluir</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- Lista de Produtos -->
+<section class="mt-4" aria-labelledby="titulo-lista-produtos">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <h5 id="titulo-lista-produtos" class="m-0">Produtos cadastrados</h5>
+      <!-- Campo de busca decorativo (sem JS) -->
+      <form class="d-inline-block" role="search" aria-label="Busca na tabela (decorativa)">
+        <input type="search" class="form-control form-control-sm" placeholder="Buscar (decorativo)" disabled>
+      </form>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 produtos-tabela">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" style="width:72px;">ID</th>
+            <th scope="col" style="width:72px;">Imagem</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Categorias</th>
+            <th scope="col" class="text-end">Qtd</th>
+            <th scope="col" class="text-end">Preço</th>
+            <th scope="col" class="text-end">Promo</th>
+            <th scope="col" style="width:120px;">Código</th>
+            <th scope="col" class="text-end" style="width:160px;">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- EXEMPLOS ESTÁTICOS (substitua pelos seus dados quando integrar) -->
+          <tr>
+            <td>105</td>
+            <td>
+              <div class="prod-thumb rounded border"></div>
+            </td>
+            <td>Fone Bluetooth X200</td>
+            <td>TechPro</td>
+            <td><span class="badge text-bg-light me-1">Acessórios</span><span class="badge text-bg-light">Celulares</span></td>
+            <td class="text-end">25</td>
+            <td class="text-end">R$ 199,90</td>
+            <td class="text-end">R$ 169,90</td>
+            <td>SKU-FTX200</td>
+            <td class="text-end">
+              <a href="#" class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">Editar</a>
+              <a href="#" class="btn btn-sm btn-outline-danger disabled" aria-disabled="true">Excluir</a>
+            </td>
+          </tr>
+          <tr>
+            <td>104</td>
+            <td>
+              <div class="prod-thumb rounded border"></div>
+            </td>
+            <td>Ração Premium 10kg</td>
+            <td>GigaMax</td>
+            <td><span class="badge text-bg-light">Pets</span></td>
+            <td class="text-end">12</td>
+            <td class="text-end">R$ 129,00</td>
+            <td class="text-end">—</td>
+            <td>RAC-10K-001</td>
+            <td class="text-end">
+              <a href="#" class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">Editar</a>
+              <a href="#" class="btn btn-sm btn-outline-danger disabled" aria-disabled="true">Excluir</a>
+            </td>
+          </tr>
+          <tr>
+            <td>103</td>
+            <td>
+              <div class="prod-thumb rounded border"></div>
+            </td>
+            <td>Brinquedo Mordedor</td>
+            <td>Mobix</td>
+            <td><span class="badge text-bg-light">Pets</span></td>
+            <td class="text-end">80</td>
+            <td class="text-end">R$ 29,90</td>
+            <td class="text-end">—</td>
+            <td>BRQ-2025</td>
+            <td class="text-end">
+              <a href="#" class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true">Editar</a>
+              <a href="#" class="btn btn-sm btn-outline-danger disabled" aria-disabled="true">Excluir</a>
+            </td>
+          </tr>
+          <!-- /EXEMPLOS -->
+        </tbody>
+        
+      </table>
+    </div>
+  </div>
+</section>
+
+
+    
+
+  <!-- Rodapé (igual ao anterior) -->
+  <footer class="footer py-4  border-top">
+    <div class="container text-center small text-muted">
+      © <span id="year"></span> Minha Loja — Painel Administrativo
+    </div>
+  </footer>
+
+  <!-- Bootstrap bundle -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- JS opcional: apenas para prévias de imagens e ano do rodapé -->
+  <script>
+    const map = [
+      { input: 'brandImg', img: 'brandPreview', ph: 'brandPlaceholder' },
+      { input: 'pImg1',    img: 'pImg1Prev',    ph: 'pImg1Ph' },
+      { input: 'pImg2',    img: 'pImg2Prev',    ph: 'pImg2Ph' },
+      { input: 'pImg3',    img: 'pImg3Prev',    ph: 'pImg3Ph' },
+    ];
+    map.forEach(({input, img, ph}) => {
+      const fileInput = document.getElementById(input);
+      const imgEl = document.getElementById(img);
+      const phEl = document.getElementById(ph);
+      if (!fileInput) return;
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          imgEl.src = ev.target.result;
+          imgEl.classList.remove('d-none');
+          if (phEl) phEl.classList.add('d-none');
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+/* ======= Base / Navbar ======= */
+body {
+  background: #f7f8fb;
+}
+
+.navbar {
+  background: #1f7a8c;
+}
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: #fff !important;
+}
+.navbar .nav-link.active {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* ======= Títulos ======= */
+.section-title {
+  font-weight: 700;
+}
+
+/* ======= Cartões ======= */
+.card {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(31,122,140,0.08);
+}
+.card-header {
+  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1rem !important;
+}
+
+/* ======= Tabelas ======= */
+.table-list thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #fff;
+}
+.table-responsive {
+  max-height: 420px;
+}
+.table-hover tbody tr:hover {
+  background: #f9fbfd;
+}
+
+/* ======= Miniaturas ======= */
+.banner-thumb {
+  height: 160px;
+  background-image: repeating-linear-gradient(45deg, #f8f9fa, #f8f9fa 10px, #eef1f4 10px, #eef1f4 20px);
+  border-radius: 12px;
+}
+.mini-banner {
+  width: 100%;
+  height: 56px;
+  background-image: repeating-linear-gradient(45deg, #f8f9fa, #f8f9fa 8px, #eaeef4 8px, #eaeef4 16px);
+}
+
+/* ======= Inputs e botões 'desabilitados' (somente UI) ======= */
+[disabled] {
+  cursor: not-allowed !important;
+}
+
+.footer {
+    background-color: #cba3c9;
+    /*cor de fundo*/
+    padding: 15px 40px 15px 40px;
+    /*dimensão*/
+    color: white;
+    /*cor do texto*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*fonte dos textos*/
+
+}
+
+/* Links do menu ao passar o mouse */
+.navbar .nav-link:hover { opacity: 0.9; }
+.navbar{
+    background-color: #7b139e;
+}
+
+/* Ajustes responsivos leves */
+@media (max-width: 576px) {
+  .brand-thumb { width: 100%; height: 160px; }
+  .product-thumb { height: 160px; }
+}

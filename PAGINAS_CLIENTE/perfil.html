@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+     <!-- Bootstrap CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+     <link rel="stylesheet" href="../css/style.css" />
+
+  </head>
+<body>
+    <!--Menu superior-->
+    <header class="header">
+      <div class="logo">
+        <img src="../IMG/logoPetAmigo.png" alt="Logo PetAmigo" />
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="Buscar..." />
+      </div>
+      <div class="icons">
+        <img src="../IMG/iconechat.png" alt="Chat" />
+        <img src="../IMG/iconecarrinho.png" alt="carrinho" />
+        <img src="../IMG/iconeperfil.png" alt="perfil" />
+      </div>
+    </header>
+
+
+<section class="profile-page py-4">
+  <div class="container">
+
+    <!-- Cabeçalho -->
+    <h2 class="h5 text-center text-purple-800 mb-4">Dados Pessoais</h2>
+
+    <div class="row g-4">
+      <!-- Coluna Esquerda: Foto + Ações -->
+      <div class="col-12 col-lg-4">
+        <div class="d-flex flex-column align-items-center gap-3">
+          <div class="avatar-wrapper position-relative">
+            <img id="avatarPreview" class="avatar rounded-circle" src="https://via.placeholder.com/200x200.png?text=Perfil" alt="Foto de perfil">
+            <label class="avatar-upload btn btn-light rounded-circle shadow-sm" title="Alterar foto">
+              <input id="avatarInput" type="file" accept="image/*" hidden>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z" stroke="currentColor" stroke-width="1.6"/><path d="M4 19V8a2 2 0 0 1 2-2h1.2l1.2-1.6A2 2 0 0 1 9.9 3h4.2a2 2 0 0 1 1.6.8L17 6H18a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+            </label>
+          </div>
+
+          <div class="d-grid gap-2 w-100" style="max-width:320px">
+            <button class="btn btn-purple">Salvar Alterações</button>
+            <button class="btn btn-outline-purple">Alterar Senha</button>
+            <button class="btn btn-outline-danger">Excluir conta</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: Formulário -->
+      <div class="col-12 col-lg-8">
+        <form class="card-like p-3 rounded-4">
+          <div class="row g-3 align-items-center">
+            <div class="col-12 col-md-6">
+              <label class="form-label small">Nome</label>
+              <input type="text" class="form-control" value="Maria Souza">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label small">CPF</label>
+              <input type="text" class="form-control" value="123.456.789-00">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label small">Telefone</label>
+              <input type="text" class="form-control" value="(63) 99999-9999">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label small">E-mail</label>
+              <input type="email" class="form-control" value="cliente@email.com">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label small">CEP</label>
+              <input type="text" class="form-control" value="77804-970">
+            </div>
+            <div class="col-12 col-md-8">
+              <label class="form-label small">Cidade</label>
+              <input type="text" class="form-control" value="Araguaína">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label small">Estado</label>
+              <input type="text" class="form-control" value="TO">
+            </div>
+            <div class="col-12 col-md-8">
+              <label class="form-label small">Rua/Logradouro</label>
+              <input type="text" class="form-control" value="Rua F, Quadra AA, Lote 03">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label small">Bairro</label>
+              <input type="text" class="form-control" value="George Yunes">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label small">Complemento</label>
+              <input type="text" class="form-control" placeholder="Opcional">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Meus Pets -->
+    <div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+      <h3 class="h6 m-0 text-purple-800">Meus Pets</h3>
+      <button class="btn btn-outline-purple btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#petModal">
+        Cadastrar novo pet
+      </button>
+    </div>
+
+    <div id="petsGrid" class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="pet-card p-2 rounded-4">
+          <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=600&auto=format&fit=crop" alt="Cachorro" class="rounded-3">
+          <div class="small mt-2"><strong>Rex</strong> • Dachshund • 3 anos</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pet-card p-2 rounded-4">
+          <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=600&auto=format&fit=crop" alt="Gato" class="rounded-3">
+          <div class="small mt-2"><strong>Mia</strong> • SRD • 2 anos</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pet-card p-2 rounded-4">
+          <img src="https://images.unsplash.com/photo-1558944351-c0f5d7b5d2c8?q=80&w=600&auto=format&fit=crop" alt="Shih Tzu" class="rounded-3">
+          <div class="small mt-2"><strong>Bob</strong> • Shih Tzu • 1 ano</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="pet-card p-2 rounded-4">
+          <img src="https://images.unsplash.com/photo-1553322390-d4f0e5f7d2c9?q=80&w=600&auto=format&fit=crop" alt="Golden" class="rounded-3">
+          <div class="small mt-2"><strong>Luna</strong> • Golden • 4 anos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minhas Compras -->
+    <h3 class="h6 mt-5 mb-3 text-purple-800">Minhas Compras</h3>
+
+    <div class="row gy-3">
+      <div class="col-12">
+        <div class="purchase-item d-flex align-items-center p-3 rounded-4">
+          <img src="https://via.placeholder.com/64x64.png?text=IMG" class="rounded-3 me-3" width="64" height="64" alt="">
+          <div class="flex-grow-1 small">
+            <div class="fw-semibold">Brinquedo Chalesco Dental Bone Médio para Cães</div>
+            <div class="d-flex flex-wrap gap-3 mt-1">
+              <div>Cor: <span class="color-dot" style="--dot:#b10000"></span></div>
+              <div>Quantidade: 2</div>
+              <div>Valor Total: <strong>R$ 31,98</strong></div>
+            </div>
+            <div class="text-muted mt-1">Forma de Pagamento: PIX &nbsp; • &nbsp; Situação: Pago</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="purchase-item d-flex align-items-center p-3 rounded-4">
+          <img src="https://via.placeholder.com/64x64.png?text=IMG" class="rounded-3 me-3" width="64" height="64" alt="">
+          <div class="flex-grow-1 small">
+            <div class="fw-semibold">Brinquedo Chalesco Dental Bone Médio para Cães</div>
+            <div class="d-flex flex-wrap gap-3 mt-1">
+              <div>Cor: <span class="color-dot" style="--dot:#b10000"></span></div>
+              <div>Quantidade: 2</div>
+              <div>Valor Total: <strong>R$ 31,98</strong></div>
+            </div>
+            <div class="text-muted mt-1">Forma de Pagamento: PIX &nbsp; • &nbsp; Situação: Entregue</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Modal: Cadastrar Pet -->
+<div class="modal fade" id="petModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content rounded-4" id="formPet">
+      <div class="modal-header modal-head-purple">
+        <h5 class="modal-title text-purple-800">Cadastrar novo pet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body modal-body-purple">
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Nome</label>
+            <input type="text" class="form-control" id="petNome" required>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Raça</label>
+            <input type="text" class="form-control" id="petRaca" required>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Idade</label>
+            <input type="text" class="form-control" id="petIdade" placeholder="ex.: 3 anos" required>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label small">Imagem</label>
+            <input type="file" class="form-control" id="petImagem" accept="image/*">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer modal-body-purple">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+        <button class="btn btn-purple" type="submit">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== JS leve para previews e adicionar pet (pode mover para perfil.js) ===== -->
+<script>
+  // Preview da foto de perfil
+  const avatarInput = document.getElementById('avatarInput');
+  const avatarPreview = document.getElementById('avatarPreview');
+  avatarInput?.addEventListener('change', (e)=>{
+    const file = e.target.files?.[0]; if(!file) return;
+    const url = URL.createObjectURL(file);
+    avatarPreview.src = url;
+  });
+
+  // Cadastrar novo pet (apenas front-end)
+  const formPet = document.getElementById('formPet');
+  formPet?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const nome = document.getElementById('petNome').value.trim();
+    const raca = document.getElementById('petRaca').value.trim();
+    const idade = document.getElementById('petIdade').value.trim();
+    const file  = document.getElementById('petImagem').files?.[0];
+
+    // cria card
+    const col = document.createElement('div');
+    col.className = 'col-6 col-md-3';
+    const imgURL = file ? URL.createObjectURL(file) :
+      'https://via.placeholder.com/300x200.png?text=Pet';
+    col.innerHTML = `
+      <div class="pet-card p-2 rounded-4">
+        <img src="${imgURL}" class="rounded-3" alt="${nome}">
+        <div class="small mt-2"><strong>${nome}</strong> • ${raca} • ${idade}</div>
+      </div>`;
+    document.getElementById('petsGrid').prepend(col);
+
+    // fechar modal e limpar
+    bootstrap.Modal.getInstance(document.getElementById('petModal')).hide();
+    e.target.reset();
+  });
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+
+
+  
+
+    <!-- Rodapé  -->
+    <footer class="footer">
+      <!-- Area do rodapé que ficará os textos do lado esquerdo -->
+      <div class="footer-esquerdo">
+        <p>Desenvolvido por Jhéssik Kaelly Bezerra Leal</p>
+      </div>
+
+      <!-- Area Direita com as redes sociais -->
+      <div class="footer-direito">
+        <p>Conheça Nossas Redes Sociais</p>
+        <div class="icons-sociais">
+          <a href="">
+            <img src="../IMG/iconeinstagram.png" alt="Instagram" />
+          </a>
+          <a href="">
+            <img src="../IMG/iconelinkedin.png" alt="Linkedin" />
+          </a>
+          <a href="">
+            <img src="../IMG/iconefacebook.png" alt="Facebook" />
+          </a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>

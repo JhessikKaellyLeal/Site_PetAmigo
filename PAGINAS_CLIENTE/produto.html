@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Tela do Produto</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons (para ícones de estrela/carrinho/search) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <!-- Estilos da página -->
+  <link rel="stylesheet" href="../CSS/produtodetalhes.css"/>
+</head>
+<body class="bg-light">
+
+  <!-- Header simples com busca e ícones -->
+  <header class="border-bottom bg-white">
+    <div class="container py-3 d-flex align-items-center gap-3">
+      <a href="#" class="navbar-brand fw-bold text-primary m-0">Minha Loja</a>
+      <form class="flex-grow-1 d-none d-md-block">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="search" class="form-control" placeholder="Buscar produtos…">
+        </div>
+      </form>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a class="text-secondary" href="#"><i class="bi bi-person"></i></a>
+        <a class="text-secondary position-relative" href="#">
+          <i class="bi bi-cart3"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">2</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-4">
+    <div class="row g-4">
+      <!-- Galeria lateral -->
+      <aside class="col-12 col-lg-1 order-2 order-lg-1">
+        <div class="d-flex d-lg-block gap-2 gallery-thumbs">
+          <img src="https://images.unsplash.com/photo-1585386959984-a4155223168f?q=80&w=600&auto=format&fit=crop" class="img-thumbnail thumb active" alt="thumb 1" data-target="#fotoPrincipal">
+          <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=600&auto=format&fit=crop" class="img-thumbnail thumb" alt="thumb 2" data-target="#fotoPrincipal">
+          <img src="https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?q=80&w=600&auto=format&fit=crop" class="img-thumbnail thumb" alt="thumb 3" data-target="#fotoPrincipal">
+          <img src="https://images.unsplash.com/photo-1601758064136-7c3d9369f2a4?q=80&w=600&auto=format&fit=crop" class="img-thumbnail thumb" alt="thumb 4" data-target="#fotoPrincipal">
+        </div>
+      </aside>
+
+      <!-- Imagem principal -->
+      <div class="col-12 col-lg-5 order-1 order-lg-2">
+        <div class="ratio ratio-1x1 border rounded bg-white p-2">
+          <img id="fotoPrincipal" class="w-100 h-100 object-fit-contain rounded"
+               src="https://images.unsplash.com/photo-1585386959984-a4155223168f?q=80&w=1200&auto=format&fit=crop"
+               alt="Brinquedo para pets">
+        </div>
+      </div>
+
+      <!-- Informações do produto -->
+      <section class="col-12 col-lg-6 order-3">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h1 class="h4">Brinquedo Chalesco Dental – Médio (Cores Sortidas)</h1>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div class="rating read-only" aria-label="Avaliação 4 de 5">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+              </div>
+              <small class="text-muted">(87 avaliações)</small>
+            </div>
+
+            <div class="text-muted mb-1">De: <s>R$ 29,90</s></div>
+            <div class="fs-3 fw-bold text-primary mb-3">R$ 17,99</div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Quantidade</label>
+                <div class="input-group">
+                  <button class="btn btn-outline-secondary" type="button" id="menosQtd"><i class="bi bi-dash"></i></button>
+                  <input type="number" min="1" value="1" class="form-control text-center" id="qtdProduto">
+                  <button class="btn btn-outline-secondary" type="button" id="maisQtd"><i class="bi bi-plus"></i></button>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Cor</label>
+                <div class="d-flex gap-2 align-items-center">
+                  <button type="button" class="swatch" style="--c:#dc3545" aria-label="Vermelho"></button>
+                  <button type="button" class="swatch" style="--c:#0d6efd" aria-label="Azul"></button>
+                  <button type="button" class="swatch" style="--c:#198754" aria-label="Verde"></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary btn-lg"><i class="bi bi-cart-plus me-2"></i>Adicionar ao Carrinho</button>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#avaliarModal">
+                <i class="bi bi-star me-1"></i> Avaliar Produto
+              </button>
+            </div>
+
+            <hr class="my-4">
+
+            <h2 class="h6">Descrição do Produto</h2>
+            <ul class="small text-muted mb-0">
+              <li>Indicado para cães; confeccionado com material atóxico de qualidade.</li>
+              <li>Ultra resistente e seguro; ajuda a fortalecer a mordida e a higiene bucal.</li>
+              <li>Disponível para entrega unitária; cores sortidas.</li>
+              <li>A cor do produto entregue pode não ser a mesma das fotos.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Avaliações resumidas -->
+    <section class="mt-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <h2 class="h6 m-0">Avaliações</h2>
+          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#avaliarModal">
+            <i class="bi bi-pencil-square me-1"></i> Escrever avaliação
+          </button>
+        </div>
+        <div class="card-body">
+          <article class="mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <div class="rating read-only">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+              </div>
+              <strong>Maria S.</strong>
+              <small class="text-muted">há 3 dias</small>
+            </div>
+            <p class="mb-0 small text-muted">Meu cachorro amou! Parece bem resistente.</p>
+          </article>
+
+          <article class="mb-0">
+            <div class="d-flex align-items-center gap-2">
+              <div class="rating read-only">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                <i class="bi bi-star"></i>
+              </div>
+              <strong>João P.</strong>
+              <small class="text-muted">há 1 semana</small>
+            </div>
+            <p class="mb-0 small text-muted">Bom custo-benefício, poderia ter mais opções de cor.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="py-4 bg-white border-top mt-5">
+    <div class="container text-center small text-muted">
+      © <span id="year"></span> Minha Loja — Todos os direitos reservados
+    </div>
+  </footer>
+
+  <!-- MODAL: Avaliar Produto -->
+  <div class="modal fade" id="avaliarModal" tabindex="-1" aria-labelledby="avaliarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formAvaliacao">
+        <div class="modal-header">
+          <h5 class="modal-title" id="avaliarModalLabel">Avaliar Produto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Estrelas interativas -->
+          <div class="mb-3 text-center">
+            <div class="rating-select" id="ratingSelect" aria-label="Selecione sua nota">
+              <!-- 5 → 1 (para ler da esquerda p/ direita) -->
+              <input type="radio" name="estrela" id="star5" value="5"><label for="star5" title="5"><i class="bi bi-star-fill"></i></label>
+              <input type="radio" name="estrela" id="star4" value="4"><label for="star4" title="4"><i class="bi bi-star-fill"></i></label>
+              <input type="radio" name="estrela" id="star3" value="3"><label for="star3" title="3"><i class="bi bi-star-fill"></i></label>
+              <input type="radio" name="estrela" id="star2" value="2"><label for="star2" title="2"><i class="bi bi-star-fill"></i></label>
+              <input type="radio" name="estrela" id="star1" value="1"><label for="star1" title="1"><i class="bi bi-star-fill"></i></label>
+            </div>
+            <small class="text-muted d-block">Nota: <span id="notaAtual">0</span>/5</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="nomeCliente">Seu nome (opcional)</label>
+            <input type="text" id="nomeCliente" class="form-control" placeholder="Ex.: Ana Souza">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="comentario">Comentário</label>
+            <textarea id="comentario" class="form-control" rows="4" placeholder="Conte para outros compradores como foi sua experiência…" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-primary" type="submit"><i class="bi bi-send me-1"></i>Enviar Avaliação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS da página: galeria + rating + utilidades -->
+  <script>
+    // ano do rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Galeria: trocar imagem principal ao clicar no thumb
+    document.querySelectorAll('.thumb').forEach((t) => {
+      t.addEventListener('click', () => {
+        document.getElementById('fotoPrincipal').src = t.src.replace('&w=600', '&w=1200');
+        document.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+
+    // Quantidade
+    const qtd = document.getElementById('qtdProduto');
+    document.getElementById('menosQtd').onclick = () => qtd.value = Math.max(1, Number(qtd.value) - 1);
+    document.getElementById('maisQtd').onclick = () => qtd.value = Number(qtd.value) + 1;
+
+    // Rating interativo do modal
+    const notaSpan = document.getElementById('notaAtual');
+    document.querySelectorAll('#ratingSelect input[type="radio"]').forEach(r => {
+      r.addEventListener('change', () => notaSpan.textContent = r.value);
+    });
+
+    // Envio da avaliação (exemplo; aqui só mostra um alerta)
+    document.getElementById('formAvaliacao').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nota = document.querySelector('#ratingSelect input:checked')?.value || 0;
+      const nome = document.getElementById('nomeCliente').value || 'Cliente';
+      const comentario = document.getElementById('comentario').value.trim();
+      if (!nota || !comentario) return; // validação simples
+
+      // Aqui você chamaria sua API. Por enquanto, apenas feedback visual:
+      const modal = bootstrap.Modal.getInstance(document.getElementById('avaliarModal'));
+      modal.hide();
+      const toast = document.createElement('div');
+      toast.className = 'toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-3';
+      toast.role = 'alert';
+      toast.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            Obrigado, ${nome}! Sua avaliação (${nota}/5) foi enviada.
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>`;
+      document.body.appendChild(toast);
+      const bsToast = new bootstrap.Toast(toast, { delay: 2500 });
+      bsToast.show();
+      bsToast._element.addEventListener('hidden.bs.toast', () => toast.remove());
+      e.target.reset();
+      notaSpan.textContent = 0;
+    });
+  </script>
+</body>
+</html>

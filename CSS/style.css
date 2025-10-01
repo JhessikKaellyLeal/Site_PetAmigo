@@ -1,0 +1,937 @@
+/* Este é um comentário */
+
+/* estilo do cabeçalho */
+
+.header {
+    background-color: #7b1fa2;
+    /* cor de fundo*/
+    padding: 10px 20px;
+    /*tamanho da área*/
+    align-items: center;
+    /* alinhar no centro*/
+    display: flex;
+    
+    /*redimensionar*/
+    justify-content:space-between;
+    /*colocar os espaços ao lado*/
+}
+
+/* Configurando a logo do site */
+.logo {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    /* tamanho da fonte do texto*/
+    font-weight: bold;
+    /*texto em negrito*/
+
+}
+
+.logo img {
+    /*dimensões da imagem*/
+    width: 80px;
+    /*tamanho*/
+    margin-right: 10px;
+    /*margens*/
+}
+
+/*CONFIGURAÇÃO DA BARRA DE PESQUISA DO MENU SUPERIOR*/
+
+.search-box {
+    flex: 1;
+    max-width: 600px;
+    
+    /*largura máxima*/
+    margin: 0 20px;
+    /* margens da caixa*/
+    position: relative;
+    /*posição*/
+}
+
+.search-box input {
+    /*configuração da parte de dentro*/
+    width: 100%;
+    /*preencher toda área*/
+    padding: 10px 40px 10px 15px;
+    /*definindo o espaço cima,direita,baixo,esquerda*/
+    border: none;
+    
+    /*borda da caixa*/
+    border-radius: 20px;
+    /*expessura da borda*/
+    font-size: 16px;
+    /*tamanho da fonte do texto*/
+}
+
+/*CONFIGURANDO OS ICONES DO MENU SUPERIOR*/
+
+.icons {
+    display: flex;
+    /* os icones ficam flexiveis a mudança de tela*/
+    gap: 20px;
+    /*espaço entre os icones*/
+    align-items: center;
+    /*centralizar os itens no meio do menu*/
+    margin-right: 20px;
+    /*dá um espaço do icone com a borda lateral do menu*/
+}
+
+.icons img {
+    /**configurando as imagens dos icones*/
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+
+}
+
+/* CONFIGURAÇÕES PARA O RODAPÉ*/
+
+.footer {
+    background-color: #cba3c9;
+    /*cor de fundo*/
+    padding: 15px 40px 15px 40px;
+    /*dimensão*/
+    color: white;
+    /*cor do texto*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*fonte dos textos*/
+
+}
+
+.footer-esquerdo {
+    font-weight: bold;
+    /*colocando o texto em negrito*/
+    margin: 0;
+}
+
+.footer-direito {
+    text-align: right;
+    /*Texto alinhado à direita*/
+    margin: 0 0 8px 0;
+}
+
+.icons-sociais {
+    /*configurando a área onde fica os icones das redes sociais*/
+    display: flex;
+    gap: 20px;
+    /*distancia entre eles*/
+    justify-content: flex-end;
+}
+
+.icons-sociais img {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s;
+    /* animação suave ao passar o mouse em cima*/
+
+}
+
+/*Configurações de tela*/
+
+html,
+body {
+    height: 100%;
+    /*ocupar 100% da altura da tela*/
+    margin: 0;
+    /*remove as margens padrão*/
+    display: flex;
+    flex-direction: column;
+    /*organiza em colunas*/
+
+}
+
+main {
+    flex: 1;
+    /*mandar o rodapé para baixo*/
+}
+
+
+/* CARROSSEL DE BANNERS*/
+
+/*configuração do carrossel principal*/
+
+.carrossel {
+    position: relative;
+    /* Permite posicionar botões (prev/next) dentro dele */
+    width: 80%;
+    /* Ocupa 80% da largura disponível */
+    max-width: 900px;
+    /* Limita a largura máxima */
+    margin: 20px auto;
+    /* Centraliza horizontalmente e dá espaço em cima/baixo */
+    overflow: hidden;
+    /* Esconde o que "sair" da área visível */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    /* Sombra suave */
+}
+
+/* Cada slide do carrossel */
+.slide-banner {
+    display: none;
+    /* Todos começam escondidos */
+    width: 100%;
+    /* Ocupam 100% da largura do container */
+}
+
+/* Imagem dentro do slide */
+.slide-banner img {
+    width: 100%;
+    /* Imagem ocupa toda a largura do slide */
+    display: block;
+    /* Remove espaços indesejados em imagens inline */
+    border-radius: 10px;
+    /* Mantém cantos arredondados iguais ao container */
+}
+
+/* Slide que está ativo */
+.slide-banner.active {
+    display: block;
+    /* Só o slide ativo é exibido */
+}
+
+/* Botões de navegação (anterior/próximo) */
+.prev,
+.next {
+    position: absolute;
+    /* Posiciona em relação ao container do carrossel */
+    top: 50%;
+    /* Centraliza verticalmente */
+    transform: translateY(-50%);
+    /* Ajusta para ficar exatamente no meio */
+    background-color: rgba(0, 0, 0, 0.266);
+    /* Fundo semi-transparente */
+    color: white;
+    /* Cor do texto */
+    border: none;
+    /* Remove borda padrão */
+    padding: 12px;
+    /* Espaçamento interno */
+    cursor: pointer;
+    /*aparecer uma mão ao passar o mouse*/
+    font-size: 22px;
+    /* Tamanho da fonte */
+    border-radius: 50%;
+    /* Botões circulares */
+}
+
+/*configurar os botões em suas posições*/
+.next {
+    right: 10px;
+    /* Posiciona à direita */
+}
+
+.prev {
+    left: 10px;
+    /* Posiciona à esquerda */
+}
+
+/*cor de fundo para o hover/ao passar o mouse nos botões*/
+.prev:hover,
+.next:hover {
+    background-color: #040006;
+}
+
+/*CONFIGURANDO AS CATEGORIAS----------------------------------------------*/
+
+/*configuração geral da área das categorias*/
+.categorias {
+    text-align: center;
+    /*centralizar o texto*/
+    ;
+    margin: 40px;
+    /*margem em volta*/
+}
+
+/*configurando o texto com o nome categoria*/
+
+.categorias h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    /*tipo da fonte*/
+    color: #c2188b;
+    /*cor da fonte*/
+    font-weight: bold;
+    /*negrito*/
+    margin-bottom: 25px;
+    /*margem embaixo do texto*/
+}
+
+/*configuração da área onde ficam as categorias*/
+.categorias-container {
+    display: flex;
+    /*deixa os itens flexiveis*/
+    justify-content: center;
+    /*centraliza os itens*/
+    gap: 30px;
+    /*espaço entre os itens*/
+    flex-wrap: wrap;
+    /*faz com que os itens que não couberem na tela, pulem para a próxima linha*/
+}
+
+/*configuração de cada categoria*/
+.lista-categorias {
+    width: 150px;
+    /*largura da categoria*/
+    height: 150px;
+    /*altura da categoria*/
+    background-color: #0d47a1;
+    /*cor de fundo*/
+    border-radius: 50%;
+    /*deixa a categoria redonda, quem não quiser em circulo deixa o valor em px*/
+    display: flex;
+    /*deixa os itens flexiveis*/
+    align-items: center;
+    /*centraliza os itens na vertical*/
+    justify-content: center;
+    /*centraliza os itens na horizontal*/
+    overflow: hidden;
+    /*esconde o que sair da área da categoria*/
+}
+
+/*para quem tem texto no lugar de imagem*/
+.lista-categorias h3 {
+    color: white;
+    /*cor do texto*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*tipo da fonte*/
+    text-align: center;
+    /*centraliza o texto*/
+    padding: 10px;
+    /*dá um espaçamento para o texto não encostar na borda*/
+}
+
+/*configuração da imagem dentro de cada categoria*/
+.lista-categorias img {
+    width: 100%;
+    /*faz a imagem ocupar toda a área da categoria*/
+    height: 100%;
+    /*faz a imagem ocupar toda a área da categoria*/
+    object-fit: cover;
+    /*faz com que a imagem cubra toda a área, cortando o que não couber*/
+    transition: transform 0.3s;
+    /*animação suave ao passar o mouse em cima*/
+}
+
+/*CONFIGURAR O ESTILO DOS PRODUTOS OFERTADOS-----------------------------------------------------*/
+
+/*CONFIGURANDO O TEXTO OFERTAS DO DIA*/
+
+.container-produtos h2 {
+    color: #a30085;
+    /*cor do texto*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*tipo da fonte*/
+    margin-bottom: 20px;
+    /*margem embaixo do texto*/
+    font-size: 20px;
+    /*tamanho da fonte*/
+    font-weight: bold;
+    /*negrito*/
+    margin-left: 20px;
+    /*margem da esquerda*/
+}
+
+/*CONFIGURAÇÃO DA ÁREA ONDE FICAM OS PRODUTOS*/
+.ofertas-container {
+    display: grid;
+    /*deixa os itens em forma de grade*/
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /*faz com que os itens se ajustem conforme o tamanho da tela*/
+    gap: 20px;
+    /*espaço entre os itens*/
+    margin: 20px;
+    /*margem em volta*/
+}
+
+/*CONFIGURAÇÃO DO CARD CADA PRODUTO*/
+.card-produto {
+    background-color: #eaeaea;
+    /*cor de fundo*/
+    border-radius: 16px;
+    /*bordas arredondadas*/
+    padding: 12px;
+    /*espaçamento interno*/
+    text-align: center;
+    /*centraliza o texto*/
+    cursor: pointer;
+    /*aparece uma mão ao passar o mouse*/
+    transition: transform 0.3s;
+    /*animação suave ao passar o mouse em cima*/
+}
+
+/*IMAGEM DO PRODUTO*/
+
+.card-produto img {
+    max-width: 100%;
+    /*faz a imagem ocupar toda a largura do card*/
+    object-fit: contain;
+    /*faz com que a imagem se ajuste dentro do card*/
+    height: 100px;
+    /*altura da imagem*/
+    
+}
+
+/*AREA DA IMAGEM DO CARD*/
+.imagem-produto {
+    background-color: #ffffff;
+    /*cor de fundo*/
+    border-radius: 12px;
+    /*bordas arredondadas*/
+    padding: 10px;
+    /*espaçamento interno*/
+}
+
+/*NOME DO PRODUTO*/
+.card-produto h3 {
+    font-size: 14px;
+    /*tamanho da fonte*/
+    color: #333;
+    /*cor do texto*/
+    margin: 10px 0;
+    /*margem em cima e embaixo*/
+    font-weight: bold;
+    /*texto normal*/
+}
+
+/*TEXTO DA COR*/
+.label-cor {
+    font-size: 12PX;
+    /*tamanho da fonte*/
+    color: #333;
+    /*cor do texto*/
+    margin: 5px 0;
+    /*margem em cima e embaixo*/
+    text-align: left;
+    /*alinha o texto a esquerda*/
+}
+
+/*AREA DAS CORES*/
+.cores {
+    display: flex;
+    /*deixa os itens flexiveis*/
+    justify-content: left;
+    /*coloca os itens a esquerda*/
+    gap: 8px;
+    /*espaço entre os itens*/
+    margin: 6px 0;
+    /*margens*/
+}
+
+/*CADA CIRCULO DE COR*/
+.cor {
+    width: 18px;
+    /*largura*/
+    height: 18px;
+    /*altura*/
+    border-radius: 50%;
+    /*deixa o circulo redondo*/
+    border: 1px solid #cccccc8f;
+    /*borda do circulo*/
+    cursor: pointer;
+    /*aparece uma mão ao passar o mouse*/
+}
+
+/*DESTACAR A COR SELECIONADA*/
+.cor.selecionada {
+    border: 2px solid #000000;
+    /*borda do circulo quando selecionado*/
+}
+
+/*PREÇO DO PRODUTO*/
+.preco-produto {
+    font-size: 12px;
+    /*tamanho da fonte*/
+    color: #a30085;
+    /*cor do texto*/
+    font-weight: bold;
+    /*texto em negrito*/
+    text-align: left;
+    /*alinha o texto a esquerda*/
+    margin: 10px 0;
+    /*margem em cima e embaixo*/
+}
+
+/*QUANTIDADE DO PRODUTO*/
+.quantidade {
+    display: flex;
+    /*deixa os itens flexiveis*/
+    align-items: center;
+    /*alinha os itens no centro*/
+    gap: 8px;
+    /*espaço entre os itens*/
+    justify-content: center;
+    /*alinha os itens no centro*/
+    margin: 8px 0;
+    /*margens*/
+}
+
+/* BOTÃO QUANTIDADE */
+.quantidade button {
+    width: 25px;
+    /*largura*/
+    height: 25px;
+    /*altura*/
+    border: none;
+    /*remove a borda padrão*/
+    border-radius: 50%;
+    /*deixa o botão redondo*/
+    background: #ddd;
+    /*cor de fundo*/
+    cursor: pointer;
+    /*aparece uma mão ao passar o mouse*/
+    font-size: 12px;
+    /*tamanho da fonte*/
+}
+
+/*BOTÃO CARRINHO*/
+.adicionar-carrinho {
+    background-color: #d63384;
+    /*cor de fundo*/
+    color: white;
+    /*cor do texto*/
+    border: none;
+    /*remove a borda padrão*/
+    padding: 10px;
+    /*espaçamento interno*/
+    border-radius: 10px;
+    /*bordas arredondadas*/
+    cursor: pointer;
+    /*aparece uma mão ao passar o mouse*/
+    width: 100%;
+    /*faz o botão ocupar toda a largura do card*/
+    font-weight: bold;
+    /*texto em negrito*/
+    transition: background-color 0.3s;
+    /*animação suave ao passar o mouse em cima*/
+}
+
+/*BOTÃO CARRINHO HOVER*/
+.adicionar-carrinho:hover {
+    background-color: #a30085;
+    /*cor de fundo ao passar o mouse*/
+}
+
+/*BOTÕES DE AUMENTAR E DIMINUIR QUANTIDADE HOVER*/
+.diminuir:hover,
+.aumentar:hover {
+    background-color: #cba3c9;
+    /*cor de fundo ao passar o mouse*/
+}
+
+/*CONFIGURANDO AS MARCAS*/
+
+.marcas {
+    margin: 20px;
+    /*margem em volta*/
+}
+
+.marcas h2 {
+    color: #a020a0;
+    /*cor do texto*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*tipo da fonte*/
+    font-size: 20px;
+    /*tamanho da fonte*/
+    margin-bottom: 15px;
+    /*margem embaixo do texto*/
+    font-weight: bold;
+    /*negrito*/
+}
+
+.marcas-container {
+    display: flex;
+    /*deixa os itens flexiveis*/
+    gap: 30px;
+    /*espaço entre os itens*/
+    flex-wrap: wrap;
+    /*faz com que os itens que não couberem na tela, pulem para a próxima linha*/
+    align-items: center;
+    /*centraliza os itens na vertical*/
+}
+
+.marcas img {
+    width: 150px;
+    /*largura da imagem*/
+    height: auto;
+    /*altura automática*/
+    border-radius: 10px;
+    /*bordas arredondadas*/
+    transition: transform 0.3s;
+    /*animação suave ao passar o mouse em cima*/
+}
+
+.marcas img:hover {
+    transform: scale(1.05);
+    /*aumenta a imagem ao passar o mouse*/
+}
+
+
+
+
+
+
+
+/* Inicio do Estilo Geral --------------------------------- */
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Fim do Estilo Geral ------------------------------------ */
+
+/* Inicio do Navbar --------------------------------------- */
+.bg-purple {
+    background-color: #7b139e;
+}
+
+/* Fim do Navbar ------------------------------------------ */
+
+/* Inicio do Card ----------------------------------------- */
+.form-card {
+    max-width: 450px;
+    width: 100%;
+    background: #fff;
+    border: none;
+    margin-top: -60px;
+    /* Ajuste para compensar navbar */
+}
+
+.logo {
+    width: 90px;
+    height: auto;
+}
+
+.text-purple {
+    color: #7b139e;
+}
+
+.btn-purple {
+    background-color: #7b139e;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.btn-purple:hover {
+    background-color: #5e0f79;
+    color: #fff;
+}
+
+/* Fim do Card ------------------------------------------- */
+
+/* Inicio dos Botões de Senha ---------------------------- */
+.toggle-password {
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+/* Fim dos Botões de Senha ------------------------------- */
+
+
+/*configuração da área de login*/
+
+.login-card {
+    background-color: #bab4b45a;
+}
+
+/*página de detalhes de produto*/
+
+.product-page .rating .paw {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.product-page .color-dot {
+    --dot: #6c757d;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .15);
+    background: var(--dot);
+}
+
+.product-page .qty-group .form-control {
+    max-width: 72px;
+}
+
+.product-page .thumb.active {
+    outline: 3px solid #b95ad6;
+}
+
+.product-page .thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-page .review {
+    border-color: #e9d7ff;
+}
+
+
+/* carrinho de compras*/
+
+text-purple-800 {
+    color: #6a0080;
+}
+
+.cart-item {
+    background: #f5f5f7;
+    border: 1px solid #e1e1e1;
+}
+
+.qty-group .form-control {
+    height: 31px;
+    padding: .125rem .25rem;
+}
+
+.color-dot {
+    --dot: #6c757d;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
+    background: var(--dot);
+    vertical-align: middle;
+    margin-left: .25rem;
+}
+
+.btn-remove {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 0;
+    background: #ede1f6;
+    color: #7d2ea8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 0 1px rgba(125, 46, 168, .25);
+}
+
+.btn-remove:hover {
+    background: #e2d2f2;
+}
+
+.btn-checkout {
+    background: #a324a6;
+    border-color: #a324a6;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(163, 36, 166, .25);
+}
+
+.btn-checkout:hover {
+    background: #8f1f91;
+    border-color: #8f1f91;
+}
+
+.sug-card {
+    background: #f5f5f7;
+    border: 1px solid #e1e1e1;
+}
+
+/* Garante que as imagens do carrinho tenham tamanho fixo */
+.cart-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    /* mantém proporção sem cortar */
+    border-radius: 8px;
+}
+
+/* Para as imagens das sugestões */
+.sug-card img {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+/*PAGAMENTO*/
+
+/* utilitários */
+.text-purple-800 {
+    color: #6a0080;
+}
+
+.bg-purple-600 {
+    background: #8c2db0;
+}
+
+/* cartões de endereço */
+.address-card {
+    background: #f5f5f7;
+    border: 1px solid #e1e1e1;
+    cursor: pointer;
+}
+
+.address-card:hover {
+    background: #f1eef9;
+}
+
+.address-card .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+/* botões roxos */
+.btn-outline-purple {
+    color: #6a0080;
+    border-color: #6a0080;
+}
+
+.btn-outline-purple:hover {
+    background: #6a0080;
+    color: #fff;
+}
+
+/* barra total com frete */
+.frete-bar .progress {
+    background: #e9e2f4;
+}
+
+/* cartões cinzas */
+.card-like {
+    background: #e9e9ec;
+    border: 1px solid #d9d9de;
+}
+
+/* mosaico de pagamento */
+.pay-tile {
+    width: 160px;
+    height: 110px;
+    border: 1px solid #d9d9de;
+    border-radius: 18px;
+    background: #f2f2f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+    transition: all .15s ease;
+    user-select: none;
+}
+
+.pay-tile .pay-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.pay-tile.active {
+    outline: 3px solid #b95ad6;
+    background: #efe2f7;
+}
+
+.pay-tile:hover {
+    transform: translateY(-2px);
+}
+
+/* preview QR */
+.qr-holder {
+    width: 200px;
+}
+
+/* modais lilás */
+.modal-head-purple {
+    background: #e7bfe7;
+}
+
+.modal-body-purple {
+    background: #f0cfef;
+}
+
+/* imagens nunca estouram */
+.checkout-page img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/*PERFIL*/
+
+/* Tema */
+.text-purple-800{ color:#6a0080; }
+.btn-purple{ background:#6a0080; border-color:#6a0080; color:#fff; }
+.btn-purple:hover{ background:#57006b; border-color:#57006b; }
+.btn-outline-purple{ color:#6a0080; border-color:#6a0080; }
+.btn-outline-purple:hover{ background:#6a0080; color:#fff; }
+
+/* Blocos */
+.card-like{ background:#f5f5f7; border:1px solid #e3e3e8; }
+.purchase-item{ background:#f5f5f7; border:1px solid #e3e3e8; }
+.pet-card{ background:#f5f5f7; border:1px solid #e3e3e8; }
+.color-dot{ --dot:#6c757d; width:14px; height:14px; border-radius:999px; background:var(--dot); display:inline-block; border:2px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.15); }
+
+/* Avatar */
+.avatar-wrapper{ width:210px; height:210px; }
+.avatar{ width:210px; height:210px; object-fit:cover; }
+.avatar-upload{
+  position:absolute; right:6px; bottom:6px; width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid #e3e3e8;
+}
+
+/* Modal cores */
+.modal-head-purple{ background:#e7bfe7; }
+.modal-body-purple{ background:#f0cfef; }
+
+/* Imagens responsivas dos cards de pets */
+.pet-card img{
+  width:100%; height:160px; object-fit:cover;
+  display:block;
+}
+
+/* Acessórios */
+.profile-page img{ max-width:100%; height:auto; }
+
+/*Tela de cadastro de produtos,categorias e marcas*/
+
+/* Espaçamento geral */
+main .card { 
+    border-radius: 0.75rem;
+ }
+
+/* Miniaturas (marcas) */
+.brand-thumb {
+  width: 140px;
+  height: 140px;
+  background-color: #f8f9fa;
+}
+.logo-sample {
+  width: 48px;
+  height: 48px;
+  background: #e9ecef;
+  border: 1px solid #dee2e6;
+}
+
+/* Miniaturas (produtos) */
+.product-thumb {
+  width: 100%;
+  height: 180px;
+  background-color: #f8f9fa;
+}
+
+/* Links do menu ao passar o mouse */
+.navbar .nav-link:hover { opacity: 0.9; }
+.navbar{
+    background-color: #7b139e;
+}
+
+/* Ajustes responsivos leves */
+@media (max-width: 576px) {
+  .brand-thumb { width: 100%; height: 160px; }
+  .product-thumb { height: 160px; }
+}
+
+/*frete e formas de pagamento do logista*/
+.table td, .table th { vertical-align: middle; }
