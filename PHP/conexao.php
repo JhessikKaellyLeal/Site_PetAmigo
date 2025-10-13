@@ -14,7 +14,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, 
     PDO::ERRMODE_EXCEPTION);
     // imprimindo mensagem caso tenha dado certo
-     echo "Conexão bem-sucedida!"; // (opcional para teste)
+    
 } catch (PDOException $e) {
     // caso dê erro, ele executa o catch e imprime a mensagem
     die("Erro ao conectar ao banco de dados: " 
