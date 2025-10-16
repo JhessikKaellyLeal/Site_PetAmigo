@@ -66,32 +66,8 @@
                   <th class="text-end" style="width:160px">Ações</th>
                 </tr>
               </thead>
-              <tbody>
-                <!-- Exemplos estáticos -->
-                <tr>
-                  <td>1</td>
-                  <td>Dinheiro</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Cartão de Crédito</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>PIX</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                  </td>
-                </tr>
+               <tbody id="tbPagamentos">
+                
               </tbody>
             </table>
           </div>
@@ -109,7 +85,7 @@
         <div class="card-body">
 
 
-          <form action="../PHP/cadastro_frete_e_pagamento.php" method="post" class="row g-3">
+          <form action="../PHP/cadastro_frete.php" method="post" class="row g-3">
             <div class="col-md-4">
               <label for="frBairro" class="form-label">Bairro</label>
               <input type="text" id="frBairro" name="bairro" class="form-control" placeholder="Ex.: Centro" required/>
@@ -145,38 +121,8 @@
                   <th class="text-end" style="width:160px">Ações</th>
                 </tr>
               </thead>
-              <tbody>
-                <!-- Exemplos estáticos -->
-                <tr>
-                  <td>1</td>
-                  <td>Centro</td>
-                  <td>RápidoExpress</td>
-                  <td class="text-end">R$ 12,50</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jardim das Flores</td>
-                  <td>—</td>
-                  <td class="text-end">R$ 18,00</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Vila Nova</td>
-                  <td>EntregaFácil</td>
-                  <td class="text-end">R$ 15,90</td>
-                  <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
-                  </td>
-                </tr>
+              <tbody id="tbFretes">
+                
               </tbody>
             </table>
           </div>
@@ -209,5 +155,8 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
+
+<script src="../JS/frete_pagamentos_logista.js"></script>
 </body>
 </html>
