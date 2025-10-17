@@ -72,7 +72,7 @@ try{
 // SE O METODO DE ENVIO FOR DIFERENTE DO POST
     if($_SERVER["REQUEST_METHOD"] !== "POST"){
         //VOLTAR À TELA DE CADASTRO E EXIBIR ERRO
-        redirecWith("../paginas/frete_pagamento_logista.html",
+        redirecWith("../paginas_logista/frete_pagamento_logista.html",
            ["erro"=> "Metodo inválido"]);
     }
 // variaveis para receber os dados da tela
@@ -96,10 +96,10 @@ try{
 
      /* Verificando se foi cadastrado no banco de dados */
      if($inserir){
-        redirecWith("../paginas/frete_pagamento_logista.html",
+        redirecWith("../paginas_logista/frete_pagamento_logista.html",
         ["cadastro" => "ok"]) ;
      }else{
-        redirecWith("../paginas/frete_pagamento_logista.html"
+        redirecWith("../paginas_logista/frete_pagamento_logista.html"
         ,["erro" =>"Erro ao cadastrar no banco
          de dados"]);
      }
@@ -109,7 +109,7 @@ try{
 
 
 }catch(Exception $e){
-redirecWith("../paginas/frete_pagamento_logista.html",
+redirecWith("../paginas_logista/frete_pagamento_logista.html",
       ["erro" => "Erro no banco de dados: "
       .$e->getMessage()]);
 }

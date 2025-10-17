@@ -85,3 +85,26 @@ body {
   .brand-thumb { width: 100%; height: 160px; }
   .product-thumb { height: 160px; }
 }
+
+/* Área da prévia do banner */
+.banner-thumb{
+  /* ocupa a largura do card */
+  width: 100%;
+  /* mantém formato retangular bonito (16:9). Se preferir, troque por height fixa. */
+  aspect-ratio: 16 / 9;
+  background: #f8f9fa;
+  border: 1px dashed #e9ecef;      /* borda “zebrada” suave */
+  border-radius: .5rem;
+  overflow: hidden;                 /* corta sobras da imagem */
+  padding: 0;                       /* remove espaçamento interno */
+  display: block;                   /* garante que não “brigue” com flex */
+}
+
+/* A imagem sempre preenche sem deformar */
+.banner-thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                /* cobre sem distorcer */
+  display: block;
+  border-radius: inherit;           /* segue cantos arredondados do container */
+}

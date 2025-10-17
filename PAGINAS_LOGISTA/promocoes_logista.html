@@ -47,45 +47,42 @@
           <strong>Cadastrar/Atualizar banner</strong>
         </div>
         <div class="card-body">
-          <form class="row g-3" enctype="multipart/form-data">
+          <form class="row g-3" action="../php/banners.php" method="post" enctype="multipart/form-data">
             <div class="col-12 col-md-4">
               <label class="form-label">Imagem do banner</label>
               <div class="banner-thumb border rounded d-flex align-items-center justify-content-center">
                 <span class="text-muted">Prévia</span>
               </div>
-              <input type="file" class="form-control mt-2" accept="image/*" disabled>
-              <div class="form-text">* Somente visual (HTML/CSS). Upload real via backend.</div>
+              <input type="file" name="foto" class="form-control mt-2" accept="image/*" >
+              
             </div>
 
             <div class="col-12 col-md-8">
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Data de validade</label>
-                  <input type="date" class="form-control" placeholder="AAAA-MM-DD">
+                  <input type="date" name="data" class="form-control" placeholder="AAAA-MM-DD">
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Categoria (opcional)</label>
-                  <select class="form-select">
-                    <option value="">— Sem vínculo —</option>
-                    <option value="1">Acessórios</option>
-                    <option value="2">Alimentos</option>
-                    <option value="3">Higiene</option>
+                  <select class="form-select" name="categoriab" id="categoriaBanner">
+                    
                   </select>
                 </div>
                 <div class="col-md-8">
                   <label class="form-label">Descrição</label>
-                  <input type="text" class="form-control" maxlength="45" placeholder="Texto curto do banner">
+                  <input type="text" name="descricao" class="form-control" maxlength="45" placeholder="Texto curto do banner">
                 </div>
                 <div class="col-md-4">
                   <label class="form-label">Link</label>
-                  <input type="text" class="form-control" maxlength="45" placeholder="/promo-pets">
+                  <input type="text" name="link" class="form-control" maxlength="45" placeholder="/promo-pets">
                 </div>
               </div>
 
               <div class="d-flex gap-2 mt-3">
-                <button type="button" class="btn btn-primary" disabled>Cadastrar</button>
-                <button type="button" class="btn btn-outline-secondary" disabled>Editar</button>
-                <button type="button" class="btn btn-outline-danger" disabled>Excluir</button>
+                <button type="submit" class="btn btn-primary" >Cadastrar</button>
+                <button type="button" class="btn btn-outline-secondary" >Editar</button>
+                <button type="button" class="btn btn-outline-danger" >Excluir</button>
               </div>
             </div>
           </form>
@@ -99,43 +96,17 @@
                 <tr>
                   <th style="width:100px;">Imagem</th>
                   <th>Descrição</th>
-                  <th>Link</th>
-                  <th>Categoria</th>
                   <th>Validade</th>
+                  <th>Categoria</th>
+                  <th>Link</th>
                   <th class="text-end" style="width:170px;">Ações</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><div class="mini-banner rounded"></div></td>
-                  <td>Semana do Pet</td>
-                  <td>/semana-pet</td>
-                  <td>Acessórios</td>
-                  <td>31/10/2025</td>
-                  <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">Editar</a>
-                      <a href="#" class="btn btn-outline-danger disabled" aria-disabled="true">Excluir</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td><div class="mini-banner rounded"></div></td>
-                  <td>Frete Grátis Norte</td>
-                  <td>/frete-norte</td>
-                  <td>—</td>
-                  <td>15/11/2025</td>
-                  <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">Editar</a>
-                      <a href="#" class="btn btn-outline-danger disabled" aria-disabled="true">Excluir</a>
-                    </div>
-                  </td>
-                </tr>
+              <tbody id="tbBanners">
+                
+              
               </tbody>
-              <tfoot>
-                <tr><td colspan="6" class="small text-muted">* Lista estática (HTML). Integração posterior.</td></tr>
-              </tfoot>
+              
             </table>
           </div>
         </div>
@@ -162,7 +133,7 @@
             <div class="col-md-4">
               <label class="form-label">Valor (R$ ou %)</label>
               <input type="number" class="form-control" step="0.01" placeholder="Ex.: 10,00">
-              <div class="form-text">* Interpretação do tipo no backend.</div>
+             
             </div>
             <div class="col-md-4">
               <label class="form-label">Validade</label>
@@ -173,9 +144,9 @@
               <input type="number" class="form-control" min="1" placeholder="50">
             </div>
             <div class="col-12 d-flex gap-2">
-              <button type="button" class="btn btn-primary" disabled>Cadastrar</button>
-              <button type="button" class="btn btn-outline-secondary" disabled>Editar</button>
-              <button type="button" class="btn btn-outline-danger" disabled>Excluir</button>
+              <button type="submit" class="btn btn-primary" >Cadastrar</button>
+              <button type="button" class="btn btn-outline-secondary" >Editar</button>
+              <button type="button" class="btn btn-outline-danger">Excluir</button>
             </div>
           </form>
         </div>
@@ -193,35 +164,10 @@
                   <th class="text-end" style="width:170px;">Ações</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>PET10</td>
-                  <td>10,00</td>
-                  <td>31/10/2025</td>
-                  <td>100</td>
-                  <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">Editar</a>
-                      <a href="#" class="btn btn-outline-danger disabled" aria-disabled="true">Excluir</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>PETFRETE</td>
-                  <td>15,00</td>
-                  <td>30/11/2025</td>
-                  <td>50</td>
-                  <td class="text-end">
-                    <div class="btn-group btn-group-sm">
-                      <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">Editar</a>
-                      <a href="#" class="btn btn-outline-danger disabled" aria-disabled="true">Excluir</a>
-                    </div>
-                  </td>
-                </tr>
+              <tbody id="tbCupom">
+              
               </tbody>
-              <tfoot>
-                <tr><td colspan="5" class="small text-muted">* Lista estática (HTML). Integração posterior.</td></tr>
-              </tfoot>
+              
             </table>
           </div>
         </div>
@@ -243,10 +189,8 @@
           <form class="row g-3">
             <div class="col-md-6">
               <label class="form-label">Categoria</label>
-              <select class="form-select">
-                <option value="1">Acessórios</option>
-                <option value="2">Alimentos</option>
-                <option value="3">Higiene</option>
+              <select class="form-select" id="categoriasPromocoes">
+              
               </select>
             </div>
             <div class="col-md-3">
@@ -256,7 +200,7 @@
             <div class="col-md-3">
               <label class="form-label">Validade (visual)</label>
               <input type="date" class="form-control">
-              <div class="form-text">* Campo visual; controle real no backend se desejar expirar.</div>
+              
             </div>
             <div class="col-12 d-flex gap-2">
               <button type="button" class="btn btn-primary" disabled>Aplicar</button>
@@ -410,5 +354,9 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
+<script src="../JS/promocoes_logista.js"> </script>
+
+
 </body>
 </html>
