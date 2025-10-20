@@ -94,7 +94,111 @@ function listarMarcas(nometabelamarcas) {
   });
 }
 
+function listarProdutos(tbodyId) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const tbody = document.getElementById(tbodyId);
+    const url   = '../PHP/cadastro_produtos.php?listar=1';
+
+    // Escapa texto para evitar injeção de HTML
+    const esc = s => (s || '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[c]));
+
+    // Placeholder (imagem cinza com "SEM IMAGEM")
+    const ph = () => 'data:image/svg+xml;base64,' + btoa(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="60">
+         <rect width="100%" height="100%" fill="#eee"/>
+         <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+               font-family="sans-serif" font-size="10" fill="#999">SEM IMAGEM</text>
+       </svg>`
+    );
+
+    fetch(url)
+      .then(r => {
+        if (!r.ok) throw new Error(`Erro HTTP: ${r.status}`);
+        return r.json();
+      })
+      .then(data => {
+        tbody.innerHTML = ''; // limpa antes de preencher
+
+        if (!data.ok || !data.produtos?.length) {
+          tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">Nenhum produto encontrado.</td></tr>`;
+          return;
+        }
+
+        data.produtos.forEach(p => {
+          const precoFmt = p.preco.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+          const promoFmt = p.preco_promocional ? 
+            p.preco_promocional.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}) : '-';
+          const imgSrc = p.imagem ? `data:image/jpeg;base64,${p.imagem}` : ph();
+
+          const linha = `
+            <tr>
+              <td>${p.idProdutos}</td>
+              <td><img src="${imgSrc}" alt="${esc(p.texto_alternativo || p.nome)}" width="64" height="48" class="rounded"></td>
+              <td>${esc(p.nome)}</td>
+              <td>${esc(p.marca || '-')}</td>
+              <td>${esc(p.categoria || '-')}</td>
+              <td>${precoFmt}</td>
+              <td>${promoFmt}</td>
+              <td>${p.quantidade}</td>
+            </tr>`;
+          tbody.insertAdjacentHTML('beforeend', linha);
+        });
+      })
+      .catch(err => {
+        console.error('Erro ao listar produtos:', err);
+        tbody.innerHTML = `<tr><td colspan="8" class="text-danger text-center">Erro ao carregar produtos.</td></tr>`;
+      });
+  });
+}
+
+function carregarMarcasSelect(selectId) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById(selectId);
+    const url    = '../PHP/cadastro_marcas.php?listar=1';
+
+    fetch(url)
+      .then(r => {
+        if (!r.ok) throw new Error(`Erro HTTP: ${r.status}`);
+        return r.json();
+      })
+      .then(data => {
+        // Limpa o select e adiciona a opção padrão
+        select.innerHTML = '<option value="">Selecione uma marca</option>';
+
+        // Verifica se há resultados
+        if (!data.ok || !data.marcas?.length) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'Nenhuma marca encontrada';
+          opt.disabled = true;
+          select.appendChild(opt);
+          return;
+        }
+
+        // Popula o select com as marcas
+        data.marcas.forEach(m => {
+          const opt = document.createElement('option');
+          opt.value = m.idMarcas;
+          opt.textContent = m.nome;
+          select.appendChild(opt);
+        });
+      })
+      .catch(err => {
+        console.error('Erro ao carregar marcas:', err);
+        select.innerHTML = '<option value="">Erro ao carregar marcas</option>';
+      });
+  });
+}
+
+
+
+
+
 // Chamadas das funções para preencher as tabelas e selects da página
 listarMarcas("tabelaMarcas");    // Popula a tabela de marcas
 listarcategorias("#pCategoria"); // Popula o select de categoria principal
 listarcategorias("#prodcat");    // Popula outro select de categorias (ex: produtos)
+listarProdutos("tabelaProdutos");
+carregarMarcasSelect("#proMarca");

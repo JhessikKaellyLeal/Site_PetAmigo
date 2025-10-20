@@ -31,149 +31,195 @@ function readImageToBlob(?array $file): ?string {
 
 
 
+
+// ========================= LISTAGEM DE PRODUTOS ========================= //
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["listar"])) {
+  header('Content-Type: application/json; charset=utf-8');
+
+  try {
+    // Consulta SQL com joins para trazer marca, categoria e imagem principal
+    $sql = "
+      SELECT
+        p.idProdutos,
+        p.nome,
+        p.descricao,
+        p.quantidade,
+        p.preco,
+        p.preco_promocional,
+        m.nome AS marca,
+        c.nome AS categoria,
+        i.foto AS imagem,
+        i.texto_alternativo
+      FROM Produtos p
+      LEFT JOIN Marcas m ON m.idMarcas = p.Marcas_idMarcas
+      LEFT JOIN Produtos_e_Categorias_produtos pc ON pc.Produtos_idProdutos = p.idProdutos
+      LEFT JOIN categorias_produtos c ON c.idCategoriaProduto = pc.Categorias_produtos_id
+      LEFT JOIN Produtos_has_Imagem_produtos pi ON pi.Produtos_idProdutos = p.idProdutos
+      LEFT JOIN Imagem_produtos i ON i.idImagem_produtos = pi.Imagem_produtos_idImagem_produtos
+      GROUP BY p.idProdutos
+      ORDER BY p.idProdutos DESC
+    ";
+
+    $stmt = $pdo->query($sql);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Mapeia os resultados para converter imagem e ajustar tipos
+    $produtos = array_map(function ($r) {
+      return [
+        'idProdutos'        => (int)$r['idProdutos'],
+        'nome'              => $r['nome'],
+        'descricao'         => $r['descricao'],
+        'quantidade'        => (int)$r['quantidade'],
+        'preco'             => (float)$r['preco'],
+        'preco_promocional' => isset($r['preco_promocional']) ? (float)$r['preco_promocional'] : null,
+        'marca'             => $r['marca'] ?? null,
+        'categoria'         => $r['categoria'] ?? null,
+        'imagem'            => !empty($r['imagem']) ? base64_encode($r['imagem']) : null,
+        'texto_alternativo' => $r['texto_alternativo'] ?? null
+      ];
+    }, $rows);
+
+    echo json_encode(
+      ['ok' => true, 'count' => count($produtos), 'produtos' => $produtos],
+      JSON_UNESCAPED_UNICODE
+    );
+
+  } catch (Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['ok' => false, 'error' => $e->getMessage()]);
+  }
+
+  exit;
+}
+
+
+
+
+
+
+
 try {
-   // SE O METODO DE ENVIO FOR DIFERENTE DO POST → redireciona com erro
+  // 1) Aceita apenas POST
   if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Método inválido"]);
   }
 
-  // Variáveis do produto (capturadas do formulário)
-  $nome   = $_POST["nomeproduto"] ;
-  $descricao = $_POST["descricao"] ;
-  $quantidade =  (int)$_POST["quantidade"] ;
-  $preco  =  (double)$_POST["preco"];
-  $tamanho = $_POST["tamanho"] ;
-  $cor     = $_POST["cor"] ;
-  $codigo  =  (int)$_POST["codigo"] ;
-  $preco_promocional = (double)$_POST["precopromocional"] ;
-  $marcas_idMarcas = 1; // ID da marca (fixo aqui; poderia vir do formulário)
+  // 2) Normalização de valores monetários (pt-BR e en-US)
+  $normMoney = fn($v) => ($v === '' || $v === null)
+    ? null
+    : (float) str_replace(',', '.', preg_replace('/\.(?=.*,)/', '', trim($v)));
 
-  // VÁRIAVEIS DAS Imagens (cada input de arquivo vira um BLOB ou null)
+  // 3) Coleta campos do formulário
+  $nome        = trim($_POST["nomeproduto"] ?? '');
+  $descricao   = trim($_POST["descricao"] ?? '');
+  $quantidade  = (int)($_POST["quantidade"] ?? 0);
+  $preco       = $normMoney($_POST["preco"] ?? '');
+  $tamanho     = trim($_POST["tamanho"] ?? '');
+  $cor         = trim($_POST["cor"] ?? '');
+  $codigo      = trim($_POST["codigo"] ?? '');          // se no BD for INT, pode (int)$codigo
+  $preco_promo = $normMoney($_POST["precopromocional"] ?? '');
+  $marcas_id   = (int)($_POST["marcas_idMarcas"] ?? 0); // **marca vinda do form**
+  $cat_ids     = $_POST["categorias_ids"] ?? [];        // **categorias vindas do form (array)**
+
+  // 4) Imagens (usa sua helper readImageToBlob)
   $img1 = readImageToBlob($_FILES["imgproduto1"] ?? null);
   $img2 = readImageToBlob($_FILES["imgproduto2"] ?? null);
   $img3 = readImageToBlob($_FILES["imgproduto3"] ?? null);
+  $imagens = array_values(array_filter([$img1, $img2, $img3], fn($b) => $b !== null));
 
+  // 5) Validação
+  $erros = [];
+  if ($nome === '' || $descricao === '' || $quantidade <= 0 || !$preco) {
+    $erros[] = "Preencha os campos obrigatórios.";
+  }
+  if ($marcas_id <= 0) {
+    $erros[] = "Selecione uma marca válida.";
+  }
+  // filtra categorias para inteiros positivos (opcional)
+  $cat_ids = array_values(array_unique(array_filter(array_map('intval', (array)$cat_ids), fn($v)=>$v>0)));
 
-  // Validação básica dos campos obrigatórios
-  $erros_validacao = [];
-  if ($nome === "" || $descricao === "" || 
-  $quantidade <= 0 || $preco <= 0 || $marcas_idMarcas <= 0) {
-    $erros_validacao[] = "Preencha os campos obrigatórios.";
+  if (!empty($erros)) {
+    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => implode(' ', $erros)]);
   }
 
-  // Se houver erros, redireciona informando a mensagem
-  if (!empty($erros_validacao)) {
-    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => implode(" ", $erros_validacao)]);
-  }
-
-  // Inicia transação (garante consistência entre inserts)
+  // 6) Transação
   $pdo->beginTransaction();
 
-  // INSERT na tabela Produtos (com parâmetros nomeados)
-  $sqlProdutos = "INSERT INTO Produtos
-    (nome, descricao, quantidade, preco, tamanho,
-     cor, codigo, preco_promocional, Marcas_idMarcas)
+  // 7) Insere produto (marca vinculada pela FK)
+  $sqlProd = "INSERT INTO Produtos
+      (nome, descricao, quantidade, preco, tamanho, cor, codigo, preco_promocional, Marcas_idMarcas)
     VALUES
-    (:nome, :descricao, :quantidade, :preco, 
-    :tamanho, :cor, :codigo, :preco_promocional, :Marcas_idMarcas)";
-
-  // Prepara o statement
-  $stmProdutos = $pdo->prepare($sqlProdutos);
-
-  // Executa o INSERT com os valores vindos do formulário
-  $inserirProdutos = $stmProdutos->execute([
-    ":nome" => $nome,
-    ":descricao"  => $descricao,
-    ":quantidade"  => $quantidade,
-    ":preco"  => $preco,
-    ":tamanho" => $tamanho,
-    ":cor" => $cor,
-    ":codigo"  => $codigo,
-    ":preco_promocional"=> $preco_promocional,
-    ":Marcas_idMarcas" => $marcas_idMarcas,
+      (:nome, :descricao, :quantidade, :preco, :tamanho, :cor, :codigo, :preco_promocional, :marca)";
+  $stProd = $pdo->prepare($sqlProd);
+  $okProd = $stProd->execute([
+    ':nome'              => $nome,
+    ':descricao'         => $descricao,
+    ':quantidade'        => $quantidade,
+    ':preco'             => $preco,
+    ':tamanho'           => $tamanho !== '' ? $tamanho : null,
+    ':cor'               => $cor !== '' ? $cor : null,
+    ':codigo'            => $codigo !== '' ? $codigo : null,
+    ':preco_promocional' => $preco_promo, // pode ser null
+    ':marca'             => $marcas_id,
   ]);
-
-  // Se falhou ao inserir o produto, desfaz transação e redireciona com erro
-  if (!$inserirProdutos) {
+  if (!$okProd) {
     $pdo->rollBack();
-    redirecWith("../paginas_logista/cadastro_produtos_logista.html",
-     ["erro" => "Falha ao cadastrar produto."]);
+    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao cadastrar produto."]);
+  }
+  $idProduto = (int)$pdo->lastInsertId();
+
+  // 8) (Opcional, mas recomendado) Validar existência da marca/categorias
+  //    Se tiver constraints e índices corretos, o BD já garante; senão, poderia checar aqui.
+
+  // 9) Vincula categorias (se houver)
+  if (!empty($cat_ids)) {
+    $sqlPC = "INSERT INTO Produtos_e_Categorias_produtos
+                (Produtos_idProdutos, Categorias_produtos_id)
+              VALUES (:pid, :cid)";
+    $stPC = $pdo->prepare($sqlPC);
+
+    foreach ($cat_ids as $cid) {
+      $okPC = $stPC->execute([':pid' => $idProduto, ':cid' => (int)$cid]);
+      if (!$okPC) {
+        $pdo->rollBack();
+        redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao vincular categorias."]);
+      }
+    }
   }
 
-  // Recupera o ID do produto recém inserido (auto_increment)
-  $idproduto = (int)$pdo->lastInsertId();
+  // 10) Insere imagens e vincula
+  if (!empty($imagens)) {
+    $sqlImg  = "INSERT INTO Imagem_produtos (foto) VALUES (:foto)";
+    $stImg   = $pdo->prepare($sqlImg);
+    $sqlLink = "INSERT INTO Produtos_has_Imagem_produtos
+                  (Produtos_idProdutos, Imagem_produtos_idImagem_produtos)
+                VALUES (:pid, :iid)";
+    $stLink  = $pdo->prepare($sqlLink);
 
-  // INSERT das imagens (uma linha por imagem)
-  $sqlImagens = "INSERT INTO Imagem_produtos (foto)
-   VALUES (:imagem1), (:imagem2), (:imagem3)";
-  
-  // PREPARA O COMANDO SQL PARA SER EXECUTADO
-  $stmImagens = $pdo->prepare($sqlImagens);
+    foreach ($imagens as $blob) {
+      $stImg->bindParam(':foto', $blob, PDO::PARAM_LOB);
+      if (!$stImg->execute()) {
+        $pdo->rollBack();
+        redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao cadastrar imagens."]);
+      }
+      $idImg = (int)$pdo->lastInsertId();
 
-  /* Faz o bind de cada placeholder:
-     - Se houver conteúdo, usa PARAM_LOB para enviar binário
-     - Se não houver, envia NULL com PARAM_NULL */
-  if ($img1 !== null) {
-    $stmImagens->bindParam(':imagem1', $img1, PDO::PARAM_LOB);
-  }else{ 
-    $stmImagens->bindValue(':imagem1', null, PDO::PARAM_NULL);
+      $okLink = $stLink->execute([':pid' => $idProduto, ':iid' => $idImg]);
+      if (!$okLink) {
+        $pdo->rollBack();
+        redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao vincular produto com imagem."]);
+      }
+    }
   }
 
-  if ($img2 !== null){
-     $stmImagens->bindParam(':imagem2', $img2, PDO::PARAM_LOB);
-  }else{
-     $stmImagens->bindValue(':imagem2', null, PDO::PARAM_NULL);
-  }
+  // 11) Tudo certo
+  $pdo->commit();
+  redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["Cadastro" => "ok"]);
+  exit;
 
-  if ($img3 !== null){
-     $stmImagens->bindParam(':imagem3', $img3, PDO::PARAM_LOB);
-  }else{
-     $stmImagens->bindValue(':imagem3', null, PDO::PARAM_NULL);
-  }
-
-  // Executa o insert das imagens
-  $inserirImagens = $stmImagens->execute();
-
-  // Se falhou, desfaz transação e sinaliza erro
-  if (!$inserirImagens) {
+} catch (Throwable $e) {
+  if (isset($pdo) && $pdo->inTransaction()) {
     $pdo->rollBack();
-    redirecWith("../paginas_logista/cadastro_produtos_logista.html",
-     ["erro" => "Falha ao cadastrar imagens."]);
   }
-
-  // Recupera o último ID inserido em Imagem_produtos
-  $idImg = (int)$pdo->lastInsertId();
-
-
-  // Vincula a(s) imagem(ns) ao produto na tabela de relacionamento
-  $sqlVincularProdImg = "INSERT INTO Produtos_has_Imagem_produtos
-    (Produtos_idProdutos, Imagem_produtos_idImagem_produtos)
-    VALUES
-    (:idpro, :idimg)";
-
-  // Prepara o statement do vínculo
-  $stmVincularProdImg = $pdo->prepare($sqlVincularProdImg);
-
-  // Executa o vínculo produto ↔ imagem
-  $inserirVincularProdImg = $stmVincularProdImg->execute([
-    ":idpro" => $idproduto,
-    ":idimg" => $idImg,
-  ]);
-
-  // Se falhou o vínculo, desfaz; senão, confirma sucesso via redirecionamento
-  if (!$inserirVincularProdImg) {
-    $pdo->rollBack();
-    redirecWith("../paginas_logista/cadastro_produtos_logista.html",
-     ["erro" => "Falha ao vincular produto com imagem."]);
-  }else{
-    // (Observação: aqui não há commit explícito; o redirecionamento é feito diretamente)
-    redirecWith("../paginas_logista/cadastro_produtos_logista.html",
-     ["Cadastro" => "ok"]);
-  }
- 
-
-} catch (Exception $e) {
-  // Em qualquer exceção, redireciona informando a mensagem de erro
-  redirecWith("../paginas_logista/cadastro_produtos_logista.html",
-    ["erro" => "Erro no banco de dados: " . $e->getMessage()]);
+  redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Erro no banco de dados: " . $e->getMessage()]);
 }
