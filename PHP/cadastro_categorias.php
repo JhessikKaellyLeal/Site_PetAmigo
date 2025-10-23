@@ -68,6 +68,102 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["listar"])) {
    }
 }
 
+
+
+
+/* ============================ ATUALIZAÇÃO DE CATEGORIAS ============================ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'atualizar') {
+  try {
+    $id = (int)($_POST['id'] ?? 0);
+    $nome = trim($_POST['nomecategoria'] ?? '');
+    $desconto = isset($_POST['desconto']) ? (double)$_POST['desconto'] : 0.0;
+
+    if ($id <= 0) {
+      redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+        'erro_categoria' => 'ID inválido para atualização.'
+      ]);
+    }
+
+    if ($nome === '') {
+      redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+        'erro_categoria' => 'O nome da categoria é obrigatório.'
+      ]);
+    }
+
+    // Atualiza o registro no banco
+    $sql = "UPDATE categorias_produtos 
+               SET nome = :n, desconto = :d
+             WHERE idCategoriaProduto = :id";
+    $st = $pdo->prepare($sql);
+    $ok = $st->execute([
+      ':n'  => $nome,
+      ':d'  => $desconto,
+      ':id' => $id
+    ]);
+
+    if ($ok) {
+      redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+        'editar_categoria' => 'ok'
+      ]);
+    } else {
+      redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+        'erro_categoria' => 'Falha ao atualizar a categoria.'
+      ]);
+    }
+
+  } catch (Throwable $e) {
+    redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+      'erro_categoria' => 'Erro ao atualizar: ' . $e->getMessage()
+    ]);
+  }
+}
+
+
+
+/* ============================ EXCLUSÃO DE CATEGORIAS ============================ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir') {
+  try {
+    $id = (int)($_POST['id'] ?? 0);
+
+    if ($id <= 0) {
+      redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+        'erro_categoria' => 'ID inválido para exclusão.'
+      ]);
+    }
+
+    // Verifica se há produtos vinculados a esta categoria
+    $verifica = $pdo->prepare("
+      SELECT COUNT(*) 
+        FROM Produtos_e_Categorias_produtos 
+       WHERE Categorias_produtos_id = :id
+    ");
+    $verifica->execute([':id' => $id]);
+    $usada = (int)$verifica->fetchColumn();
+
+    if ($usada > 0) {
+      redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+        'erro_categoria' => 'Não é possível excluir a categoria, pois há produtos vinculados.'
+      ]);
+    }
+
+    // Executa a exclusão
+    $st = $pdo->prepare("DELETE FROM categorias_produtos WHERE idCategoriaProduto = :id");
+    $st->bindValue(':id', $id, PDO::PARAM_INT);
+    $st->execute();
+
+    redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+      'excluir_categoria' => 'ok'
+    ]);
+
+  } catch (Throwable $e) {
+    redirecWith('../paginas_logista/cadastro_produtos_logista.html', [
+      'erro_categoria' => 'Erro ao excluir: ' . $e->getMessage()
+    ]);
+  }
+}
+
+
+
 // códigos de cadastro
 try{
   // SE O METODO DE ENVIO FOR DIFERENTE DO POST

@@ -93,6 +93,213 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["listar"])) {
 }
 
 
+/* ============================ ATUALIZAÇÃO ============================ */
+if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["acao"] ?? '') === "atualizar") {
+  try {
+    // --- Normalizações auxiliares ---
+    $normMoney = fn($v) => ($v === '' || $v === null)
+      ? null
+      : (float) str_replace(',', '.', preg_replace('/\.(?=.*,)/', '', trim($v)));
+
+    // --- Campos vindos do form ---
+    $idProduto   = (int)($_POST["id"] ?? 0);
+    $nome        = trim($_POST["nomeproduto"] ?? '');
+    $descricao   = trim($_POST["descricao"] ?? '');
+    $quantidade  = (int)($_POST["quantidade"] ?? 0);
+    $preco       = $normMoney($_POST["preco"] ?? '');
+    $tamanho     = trim($_POST["tamanho"] ?? '');
+    $cor         = trim($_POST["cor"] ?? '');
+    $codigo      = trim($_POST["codigo"] ?? '');
+    $precoPromo  = $normMoney($_POST["precopromocional"] ?? '');
+    $marcas_id   = (int)($_POST["marcas_idMarcas"] ?? 0);
+    $cat_ids     = $_POST["categorias_ids"] ?? [];
+    $subImgs     = isset($_POST["substituir_imagens"]) && $_POST["substituir_imagens"] == '1';
+
+    if ($idProduto <= 0) {
+      redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "ID do produto inválido para edição."]);
+    }
+
+    // Validação de básicos
+    $erros = [];
+    if ($nome === '' || $descricao === '' || $quantidade <= 0 || !$preco) {
+      $erros[] = "Preencha os campos obrigatórios.";
+    }
+    if ($marcas_id <= 0) {
+      $erros[] = "Selecione uma marca válida.";
+    }
+    if ($erros) {
+      redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => implode(' ', $erros)]);
+    }
+
+    // Normaliza categorias
+    $cat_ids = array_values(array_unique(array_filter(array_map('intval', (array)$cat_ids), fn($v)=>$v>0)));
+
+    // Lê possíveis novas imagens
+    $img1 = readImageToBlob($_FILES["imgproduto1"] ?? null);
+    $img2 = readImageToBlob($_FILES["imgproduto2"] ?? null);
+    $img3 = readImageToBlob($_FILES["imgproduto3"] ?? null);
+    $novasImagens = array_values(array_filter([$img1, $img2, $img3], fn($b) => $b !== null));
+
+    // --- Transação ---
+    $pdo->beginTransaction();
+
+    // 1) UPDATE em Produtos
+    $sqlU = "UPDATE Produtos
+                SET nome=:nome, descricao=:descricao, quantidade=:qtd, preco=:preco,
+                    tamanho=:tamanho, cor=:cor, codigo=:codigo, preco_promocional=:promo,
+                    Marcas_idMarcas=:marca
+              WHERE idProdutos=:id";
+    $stU = $pdo->prepare($sqlU);
+    $okU = $stU->execute([
+      ':nome'   => $nome,
+      ':descricao' => $descricao,
+      ':qtd'    => $quantidade,
+      ':preco'  => $preco,
+      ':tamanho'=> $tamanho !== '' ? $tamanho : null,
+      ':cor'    => $cor !== '' ? $cor : null,
+      ':codigo' => $codigo !== '' ? $codigo : null,
+      ':promo'  => $precoPromo,
+      ':marca'  => $marcas_id,
+      ':id'     => $idProduto,
+    ]);
+    if (!$okU) {
+      $pdo->rollBack();
+      redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao atualizar produto."]);
+    }
+
+    // 2) Atualiza categorias (remove tudo e insere as novas)
+    $pdo->prepare("DELETE FROM Produtos_e_Categorias_produtos WHERE Produtos_idProdutos = :id")
+        ->execute([':id' => $idProduto]);
+
+    if (!empty($cat_ids)) {
+      $sqlPC = "INSERT INTO Produtos_e_Categorias_produtos
+                  (Produtos_idProdutos, Categorias_produtos_id)
+                VALUES (:pid, :cid)";
+      $stPC = $pdo->prepare($sqlPC);
+      foreach ($cat_ids as $cid) {
+        if (!$stPC->execute([':pid' => $idProduto, ':cid' => (int)$cid])) {
+          $pdo->rollBack();
+          redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao atualizar categorias."]);
+        }
+      }
+    }
+
+    // 3) Imagens
+    if ($subImgs) {
+      // 3.1) Se optou por substituir, apaga vínculos antigos e as imagens órfãs
+      // Captura IDs de imagens vinculadas ao produto
+      $idsAntigas = $pdo->prepare("
+        SELECT i.idImagem_produtos
+          FROM Produtos_has_Imagem_produtos pi
+          JOIN Imagem_produtos i ON i.idImagem_produtos = pi.Imagem_produtos_idImagem_produtos
+         WHERE pi.Produtos_idProdutos = :pid
+      ");
+      $idsAntigas->execute([':pid' => $idProduto]);
+      $antigas = $idsAntigas->fetchAll(PDO::FETCH_COLUMN, 0);
+
+      // Remove vínculos
+      $pdo->prepare("DELETE FROM Produtos_has_Imagem_produtos WHERE Produtos_idProdutos = :pid")
+          ->execute([':pid' => $idProduto]);
+
+      // Remove imagens (para não deixar órfãs)
+      if (!empty($antigas)) {
+        $in = implode(',', array_fill(0, count($antigas), '?'));
+        $pdo->prepare("DELETE FROM Imagem_produtos WHERE idImagem_produtos IN ($in)")
+            ->execute(array_map('intval', $antigas));
+      }
+    }
+
+    // 3.2) Insere novas imagens (se enviadas) e vincula
+    if (!empty($novasImagens)) {
+      $sqlImg  = "INSERT INTO Imagem_produtos (foto) VALUES (:foto)";
+      $stImg   = $pdo->prepare($sqlImg);
+      $sqlLink = "INSERT INTO Produtos_has_Imagem_produtos
+                    (Produtos_idProdutos, Imagem_produtos_idImagem_produtos)
+                  VALUES (:pid, :iid)";
+      $stLink  = $pdo->prepare($sqlLink);
+
+      foreach ($novasImagens as $blob) {
+        $stImg->bindParam(':foto', $blob, PDO::PARAM_LOB);
+        if (!$stImg->execute()) {
+          $pdo->rollBack();
+          redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao salvar novas imagens."]);
+        }
+        $idImg = (int)$pdo->lastInsertId();
+
+        if (!$stLink->execute([':pid' => $idProduto, ':iid' => $idImg])) {
+          $pdo->rollBack();
+          redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Falha ao vincular novas imagens."]);
+        }
+      }
+    }
+
+    // 4) OK
+    $pdo->commit();
+    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["editar" => "ok"]);
+    exit;
+
+  } catch (Throwable $e) {
+    if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
+    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Erro ao atualizar: " . $e->getMessage()]);
+  }
+}
+/* ============================== EXCLUSÃO ============================== */
+if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["acao"] ?? '') === "excluir") {
+  try {
+    $idProduto = (int)($_POST["id"] ?? 0);
+    if ($idProduto <= 0) {
+      redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "ID do produto inválido para exclusão."]);
+    }
+
+    $pdo->beginTransaction();
+
+    // 1) Coleta imagens vinculadas para remoção posterior
+    $idsStmt = $pdo->prepare("
+      SELECT i.idImagem_produtos
+        FROM Produtos_has_Imagem_produtos pi
+        JOIN Imagem_produtos i ON i.idImagem_produtos = pi.Imagem_produtos_idImagem_produtos
+       WHERE pi.Produtos_idProdutos = :pid
+    ");
+    $idsStmt->execute([':pid' => $idProduto]);
+    $imgIds = $idsStmt->fetchAll(PDO::FETCH_COLUMN, 0);
+
+    // 2) Remove vínculos de imagens e categorias
+    $pdo->prepare("DELETE FROM Produtos_has_Imagem_produtos WHERE Produtos_idProdutos = :pid")
+        ->execute([':pid' => $idProduto]);
+    $pdo->prepare("DELETE FROM Produtos_e_Categorias_produtos WHERE Produtos_idProdutos = :pid")
+        ->execute([':pid' => $idProduto]);
+
+    // 3) Remove o produto
+    $pdo->prepare("DELETE FROM Produtos WHERE idProdutos = :pid")
+        ->execute([':pid' => $idProduto]);
+
+    // 4) Remove as imagens que estavam vinculadas ao produto
+    if (!empty($imgIds)) {
+      $in = implode(',', array_fill(0, count($imgIds), '?'));
+      $pdo->prepare("DELETE FROM Imagem_produtos WHERE idImagem_produtos IN ($in)")
+          ->execute(array_map('intval', $imgIds));
+    }
+
+    $pdo->commit();
+    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["excluir" => "ok"]);
+    exit;
+
+  } catch (Throwable $e) {
+    if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
+    redirecWith("../paginas_logista/cadastro_produtos_logista.html", ["erro" => "Erro ao excluir: " . $e->getMessage()]);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

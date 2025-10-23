@@ -54,6 +54,10 @@
 
             <form action="../php/cadastro_categorias.php" method="post"
               class="row g-3">
+
+              <input type="hidden" name="acao" id="catAcao">
+              <input type="hidden" name="id" id="catId">
+
               <div class="col-md-6">
                 <label for="catNome" class="form-label">Nome da
                   categoria</label>
@@ -67,11 +71,12 @@
                   class="form-control" min="0" step="0.01" placeholder="0,00" />
               </div>
               <div class="col-12 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-                <button type="submit"
-                  class="btn btn-outline-secondary">Editar</button>
-                <button type="submit"
-                  class="btn btn-outline-danger">Excluir</button>
+                <button type="submit" class="btn btn-primary"
+                  id="catBtnCadastrar">Cadastrar</button>
+                <button type="button" class="btn btn-outline-secondary"
+                  id="catBtnEditar">Editar</button>
+                <button type="button" class="btn btn-outline-danger"
+                  id="catBtnExcluir">Excluir</button>
               </div>
 
               <div class="col-12 col-md-6">
@@ -98,6 +103,10 @@
 
             <form class="row g-3" action="../PHP/cadastro_marcas.php"
               method="post" enctype="multipart/form-data">
+
+              <input type="hidden" name="acao" id="marcaAcao">
+              <input type="hidden" name="id" id="marcaId">
+              
               <div class="col-12 col-md-3 text-center">
                 <div
                   class="brand-thumb border rounded d-flex align-items-center justify-content-center overflow-hidden">
@@ -121,12 +130,11 @@
                       class="form-control" placeholder="Ex.: TechPro" />
                   </div>
                   <div class="col-12 d-flex gap-2">
-                    <button type="submit"
-                      class="btn btn-primary">Cadastrar</button>
-                    <button type="submit"
-                      class="btn btn-outline-secondary">Editar</button>
-                    <button type="submit"
-                      class="btn btn-outline-danger">Excluir</button>
+                    <button type="submit" class="btn btn-primary"
+                      id="marcaBtnCadastrar">Cadastrar</button>
+                   
+                    <button type="button" class="btn btn-outline-danger"
+                      id="marcaBtnExcluir">Excluir</button>
                   </div>
 
                   <div class="col-12">
@@ -161,6 +169,9 @@
           <div class="card-body">
             <form action="../PHP/cadastro_produtos.php" method="post"
               class="row g-3" enctype="multipart/form-data">
+
+              <input type="hidden" name="acao" id="marcaAcao">
+              <input type="hidden" name="id" id="marcaId">
 
               <!-- Imagens (3) -->
               <div class="col-12">
@@ -262,11 +273,12 @@
               </div>
 
               <div class="col-12 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-                <button type="submit"
-                  class="btn btn-outline-secondary">Editar</button>
-                <button type="submit"
-                  class="btn btn-outline-danger">Excluir</button>
+                <button type="submit" class="btn btn-primary"
+                  id="marcaBtnCadastrar">Cadastrar</button>
+                <button type="button" class="btn btn-outline-secondary"
+                  id="marcaBtnEditar">Editar</button>
+                <button type="button" class="btn btn-outline-danger"
+                  id="marcaBtnExcluir">Excluir</button>
               </div>
             </form>
           </div>
@@ -349,6 +361,6 @@
   </script>
 
       <script src="../JS/produtos_logista.js"></script>
-      <script src="../JS/marcas_logista.js" defer></script>
+      
     </body>
   </html>

@@ -66,6 +66,100 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["listar"])){
 }
 
 
+/* ============================ ATUALIZAÇÃO DE MARCAS ============================ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'atualizar') {
+  try {
+    $id = (int)($_POST['id'] ?? 0);
+    $nome = trim($_POST['nomemarca'] ?? '');
+    $imgBlob = read_image_to_blob($_FILES['imagemmarca'] ?? null);
+
+    if ($id <= 0) {
+      redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+        'erro_marca' => 'ID inválido para atualização.'
+      ]);
+    }
+
+    if ($nome === '') {
+      redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+        'erro_marca' => 'O nome da marca é obrigatório.'
+      ]);
+    }
+
+    // Monta o SQL dinamicamente (só atualiza imagem se houver nova)
+    $sql = "UPDATE Marcas SET nome = :n";
+    if ($imgBlob !== null) {
+      $sql .= ", imagem = :i";
+    }
+    $sql .= " WHERE idMarcas = :id";
+
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':n', $nome, PDO::PARAM_STR);
+    if ($imgBlob !== null) {
+      $st->bindValue(':i', $imgBlob, PDO::PARAM_LOB);
+    }
+    $st->bindValue(':id', $id, PDO::PARAM_INT);
+
+    $st->execute();
+
+    redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+      'editar_marca' => 'ok'
+    ]);
+
+  } catch (Throwable $e) {
+    redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+      'erro_marca' => 'Erro ao atualizar: ' . $e->getMessage()
+    ]);
+  }
+}
+
+
+
+/* ============================ EXCLUSÃO DE MARCAS ============================ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'excluir') {
+  try {
+    $id = (int)($_POST['id'] ?? 0);
+
+    if ($id <= 0) {
+      redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+        'erro_marca' => 'ID inválido para exclusão.'
+      ]);
+    }
+
+    // Antes de excluir, opcionalmente você pode checar se há produtos usando essa marca
+    $verifica = $pdo->prepare("SELECT COUNT(*) FROM Produtos WHERE Marcas_idMarcas = :id");
+    $verifica->execute([':id' => $id]);
+    $usada = (int)$verifica->fetchColumn();
+
+    if ($usada > 0) {
+      redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+        'erro_marca' => 'Não é possível excluir a marca, pois há produtos vinculados.'
+      ]);
+    }
+
+    $st = $pdo->prepare("DELETE FROM Marcas WHERE idMarcas = :id");
+    $st->bindValue(':id', $id, PDO::PARAM_INT);
+    $st->execute();
+
+    redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+      'excluir_marca' => 'ok'
+    ]);
+
+  } catch (Throwable $e) {
+    redirect_with('../PAGINAS_LOGISTA/cadastro_produtos_logista.html', [
+      'erro_marca' => 'Erro ao excluir: ' . $e->getMessage()
+    ]);
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 // ========================= CADASTRO DE MARCAS ========================= //
 try {
