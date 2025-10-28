@@ -22,7 +22,7 @@ try{
     // SE O METODO DE ENVIO FOR DIFERENTE DO POST
     if($_SERVER["REQUEST_METHOD"] !== "POST"){
         //VOLTAR À TELA DE CADASTRO E EXIBIR ERRO
-        redirecWith("../paginas/cadastro.html",
+        redirecWith("../paginas_cliente/cadastro.html",
            ["erro"=> "Metodo inválido"]);
     }
     // jogando os dados da dentro de váriaveis
@@ -65,7 +65,7 @@ try{
     }
     // agora é enviar os erros para a tela de cadastro
     if($erros_validacao){
-        redirecWith("../paginas/cadastro.html" , 
+        redirecWith("../paginas_cliente/cadastro.html" , 
         ["erro" => $erros_validacao[0]]);
     }
 
@@ -76,7 +76,7 @@ try{
     $stmt ->execute([':cpf'=>$cpf]);
     // se o cpf já existir ele volta a tela cadastro
     if($stmt->fetch()){
-        redirecWith('../paginas/cadastro.html',["erro" 
+        redirecWith('../paginas_cliente/cadastro.html',["erro" 
     => "CPF já está cadastrado"]);
     }
     /* Inserir o Cliente no banco de dados */
@@ -93,10 +93,10 @@ try{
      ]);
      /* Verificando se foi cadastrado no banco de dados */
      if($inserir){
-        redirecWith("../paginas/login.html",
+        redirecWith("../paginas_cliente/login.html",
         ["cadastro" => "ok"]) ;
      }else{
-        redirecWith("../paginas/cadastro.html",["erro" 
+        redirecWith("../paginas_cliente/cadastro.html",["erro" 
         =>"Erro ao cadastrar no banco de dados"]);
      }
     /* agora que tudo foi feito no Try, vamos elaborar 

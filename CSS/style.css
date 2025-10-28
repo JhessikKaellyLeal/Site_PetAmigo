@@ -151,7 +151,7 @@ main {
 
 /*configuração do carrossel principal*/
 
-.carrossel {
+.carousel {
     position: relative;
     /* Permite posicionar botões (prev/next) dentro dele */
     width: 80%;
@@ -169,7 +169,7 @@ main {
 }
 
 /* Cada slide do carrossel */
-.slide-banner {
+.carousel-indicators {
     display: none;
     /* Todos começam escondidos */
     width: 100%;
@@ -177,7 +177,7 @@ main {
 }
 
 /* Imagem dentro do slide */
-.slide-banner img {
+.carousel-indicators img {
     width: 100%;
     /* Imagem ocupa toda a largura do slide */
     display: block;
