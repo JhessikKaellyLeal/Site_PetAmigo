@@ -1,84 +1,121 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PetAmigo — Home</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PetAmigo — Home</title>
 
-  <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-    crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous">
 
-  <!-- Seu CSS (opcional) -->
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
+    <!-- Seu CSS (opcional) -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
 
-  <!-- HEADER (exemplo simples; mantenha o seu se preferir) -->
-  <header class="header d-flex align-items-center justify-content-between p-3 border-bottom">
-    <div class="logo d-flex align-items-center gap-2">
-      <img src="IMG/logoPetAmigo.png" alt="Logo PetAmigo" height="40" />
-      <strong>PetAmigo</strong>
-    </div>
-    <div class="search-box flex-grow-1 mx-3">
-      <input class="form-control" type="search" placeholder="Buscar..." />
-    </div>
-    <div class="icons d-flex align-items-center gap-3">
-      <img src="IMG/iconechat.png" alt="Chat" height="28" />
-      <img src="IMG/iconecarrinho.png" alt="Carrinho" height="28" />
-      <img src="IMG/iconeperfil.png" alt="Perfil" height="28" />
-    </div>
-  </header>
+    <!-- HEADER (exemplo simples; mantenha o seu se preferir) -->
+    <header
+      class="header d-flex align-items-center justify-content-between p-3 border-bottom">
+      <div class="logo d-flex align-items-center gap-2">
+        <img src="IMG/logoPetAmigo.png" alt="Logo PetAmigo" height="40" />
+        <strong>PetAmigo</strong>
+      </div>
+      <div class="search-box flex-grow-1 mx-3">
+        <input class="form-control" type="search" placeholder="Buscar..." />
+      </div>
+      <div class="icons d-flex align-items-center gap-3">
+        <a href="PAGINAS_CLIENTE/login.html" class="text-white">Login</a>
+      </div>
+    </header>
 
-  <main class="container py-4">
+    <main class="container py-4">
 
-    <!-- CARROSSEL DE BANNERS -->
-    <div id="carouselBanners" class="carousel slide carousel-fade" data-bs-ride="carousel">
-      <div class="carousel-indicators" id="banners-indicators"></div>
-      <div class="carousel-inner" id="banners-home">
-        <!-- Itens serão inseridos via JS -->
-        <div class="carousel-item active">
-          <div class="p-3 text-muted">Carregando banners…</div>
+      <!-- CARROSSEL DE BANNERS -->
+      <div id="carouselBanners" class="carousel slide carousel-fade"
+        data-bs-ride="carousel">
+        <div class="carousel-indicators" id="banners-indicators"></div>
+        <div class="carousel-inner" id="banners-home">
+          <!-- Itens serão inseridos via JS -->
+          <div class="carousel-item active">
+            <div class="p-3 text-muted">Carregando banners…</div>
+          </div>
         </div>
+
+        <button class="carousel-control-prev" type="button"
+          data-bs-target="#carouselBanners" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+
+        <button class="carousel-control-next" type="button"
+          data-bs-target="#carouselBanners" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Próximo</span>
+        </button>
       </div>
 
-      <button class="carousel-control-prev" type="button"
-              data-bs-target="#carouselBanners" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-      </button>
+      <!-- ====== FILTRO E LISTAGEM DE PRODUTOS POR CATEGORIA ====== -->
+      <!-- ====== CATEGORIAS (chips) + PRODUTOS ====== -->
+      <section class="container py-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h2 class="h5 mb-0">Categorias</h2>
+          <label for="filtro-categoria"
+            class="visually-hidden">Categoria</label>
+        </div>
 
-      <button class="carousel-control-next" type="button"
-              data-bs-target="#carouselBanners" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Próximo</span>
-      </button>
-    </div>
+        <!-- Chips horizontais -->
+        <div id="cats-chips" class="d-flex gap-2 overflow-auto pb-2">
+          <button ... data-cat="">Todas as categorias</button>
+        </div>
 
-    <!-- demais seções da página ficam aqui -->
-  </main>
+        <!-- Select oculto (fallback/acessibilidade) -->
+        <select id="filtro-categoria" class="form-select d-none"
+          aria-hidden="true">
+          <option value>Todas as categorias</option>
+        </select>
 
-  <footer class="footer border-top p-3 d-flex justify-content-between">
-    <small>Desenvolvido por Jhéssik Kaelly Bezerra Leal</small>
-    <div class="icons-sociais d-flex gap-3">
-      <a href="#"><img src="IMG/iconeinstagram.png" alt="Instagram" height="20" /></a>
-      <a href="#"><img src="IMG/iconelinkedin.png" alt="LinkedIn" height="20" /></a>
-      <a href="#"><img src="IMG/iconefacebook.png" alt="Facebook" height="20" /></a>
-    </div>
-  </footer>
+        <hr class="my-4" />
 
-  <!-- Bootstrap JS (bundle) deve vir ANTES do seu JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous"></script>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h2 class="h5 mb-0">Produtos</h2>
+        </div>
 
-  <!-- Seu JS -->
-  <script src="JS/home_cliente.js"></script>
+        <div id="produtos-area">
+          <div id="produtos-status" class="text-muted">Carregando
+            produtos…</div>
+          <div id="produtos-grid"
+            class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3"></div>
+        </div>
+      </section>
 
+    </main>
 
-  
-</body>
+    <footer class="footer border-top p-3 d-flex justify-content-between">
+      <small>Desenvolvido por Jhéssik Kaelly Bezerra Leal</small>
+      <div class="icons-sociais d-flex gap-3">
+        <a href="#"><img src="IMG/iconeinstagram.png" alt="Instagram"
+            height="20" /></a>
+        <a href="#"><img src="IMG/iconelinkedin.png" alt="LinkedIn"
+            height="20" /></a>
+        <a href="#"><img src="IMG/iconefacebook.png" alt="Facebook"
+            height="20" /></a>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS (bundle) deve vir ANTES do seu JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+
+    
+
+    <!-- Seu JS -->
+    <script src="JS/home_cliente.js"></script>
+
+  </body>
 </html>
